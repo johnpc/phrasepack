@@ -13,6 +13,7 @@ import { usePhrases } from './phrasesApi';
 import { groupPhrases } from './groupPhrases';
 import { PHRASE_CATEGORIES } from './phraseCategories';
 import { PhraseRow } from './PhraseRow';
+import { PackHeader } from './PackHeader';
 import { RefreshBanner } from './RefreshBanner';
 import { LoadState } from '../shell/LoadState';
 import './PackDetail.css';
@@ -40,28 +41,31 @@ export function PackDetail() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {lang.data && <RefreshBanner language={lang.data} />}
-        <LoadState
-          isLoading={phrases.isLoading}
-          isError={phrases.isError}
-          isEmpty={sections.length === 0}
-          onRetry={() => void phrases.refetch()}
-          emptyTitle="No phrases yet"
-          emptyMessage="This pack is still being generated — check back in a moment."
-        >
-          <div data-testid="phrase-sections">
-            {sections.map((section) => (
-              <section key={section.slug} className="pp-section">
-                <h2 className="pp-kicker">{section.label}</h2>
-                <ul className="pp-section__list">
-                  {section.phrases.map((phrase) => (
-                    <PhraseRow key={phrase.id} phrase={phrase} />
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </LoadState>
+        <div className="pp-container">
+          {lang.data && <PackHeader language={lang.data} />}
+          {lang.data && <RefreshBanner language={lang.data} />}
+          <LoadState
+            isLoading={phrases.isLoading}
+            isError={phrases.isError}
+            isEmpty={sections.length === 0}
+            onRetry={() => void phrases.refetch()}
+            emptyTitle="No phrases yet"
+            emptyMessage="This pack is still being generated — check back in a moment."
+          >
+            <div data-testid="phrase-sections">
+              {sections.map((section) => (
+                <section key={section.slug} className="pp-section">
+                  <h2 className="pp-kicker">{section.label}</h2>
+                  <ul className="pp-section__list">
+                    {section.phrases.map((phrase) => (
+                      <PhraseRow key={phrase.id} phrase={phrase} />
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </LoadState>
+        </div>
       </IonContent>
     </IonPage>
   );

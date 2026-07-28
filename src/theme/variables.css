@@ -169,3 +169,17 @@ ion-header ion-toolbar:first-of-type {
   white-space: nowrap;
   border: 0;
 }
+
+/* Centered reading column — the single desktop-polish primitive. On a phone
+ * it's full-bleed; on a tablet/desktop it caps the line length and centers, so
+ * content never stretches edge-to-edge (the default Ionic look). Every screen's
+ * scroll content wraps its body in this. `--pp-container` lets a wider screen
+ * (e.g. the language picker grid) opt into a roomier cap. */
+.pp-container {
+  width: 100%;
+  max-width: var(--pp-container, 720px);
+  margin-inline: auto;
+}
+.pp-container--wide {
+  --pp-container: 960px;
+}

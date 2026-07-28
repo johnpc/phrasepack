@@ -1,0 +1,26 @@
+.pp-packhead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0 16px;
+}
+
+.pp-packhead__flag {
+  font-size: 2.8rem;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.pp-packhead__meta {
+  min-width: 0;
+}
+
+.pp-packhead__name {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.pp-packhead__sub {
+  font-size: 0.9rem;
+  margin: 2px 0 0;
+}

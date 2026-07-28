@@ -39,28 +39,34 @@ export function Home() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <button className="pp-add" data-testid="add-language" onClick={() => history.push('/add')}>
-          <IonIcon icon={add} aria-hidden="true" />
-          Add a language
-        </button>
-        <LoadState
-          isLoading={isLoading}
-          isError={isError}
-          isEmpty={languages.length === 0}
-          onRetry={() => void refetch()}
-          emptyTitle="No packs yet"
-          emptyMessage="Tap “Add a language” to generate your first travel phrasebook."
-        >
-          <div className="pp-home__grid" data-testid="language-list">
-            {languages.map((lang) => (
-              <LanguageCard
-                key={lang.id}
-                language={lang}
-                onOpen={(id) => history.push(`/pack/${id}`)}
-              />
-            ))}
-          </div>
-        </LoadState>
+        <div className="pp-container">
+          <button
+            className="pp-add"
+            data-testid="add-language"
+            onClick={() => history.push('/add')}
+          >
+            <IonIcon icon={add} aria-hidden="true" />
+            Add a language
+          </button>
+          <LoadState
+            isLoading={isLoading}
+            isError={isError}
+            isEmpty={languages.length === 0}
+            onRetry={() => void refetch()}
+            emptyTitle="No packs yet"
+            emptyMessage="Tap “Add a language” to generate your first travel phrasebook."
+          >
+            <div className="pp-home__grid" data-testid="language-list">
+              {languages.map((lang) => (
+                <LanguageCard
+                  key={lang.id}
+                  language={lang}
+                  onOpen={(id) => history.push(`/pack/${id}`)}
+                />
+              ))}
+            </div>
+          </LoadState>
+        </div>
       </IonContent>
     </IonPage>
   );
