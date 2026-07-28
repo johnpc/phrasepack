@@ -21,6 +21,23 @@
   box-shadow: var(--pp-shadow);
   cursor: pointer;
   text-align: center;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-add-choice:hover {
+    box-shadow: var(--pp-shadow-hover);
+    transform: translateY(-2px);
+    border-color: var(--pp-accent);
+  }
+}
+
+.pp-add-choice:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--pp-shadow);
 }
 
 .pp-add-choice__flag {

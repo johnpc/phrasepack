@@ -27,6 +27,21 @@
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-add:hover {
+    border-style: solid;
+    background: var(--pp-surface);
+  }
+}
+
+.pp-add:active {
+  transform: scale(0.99);
 }
 
 .pp-add ion-icon {
