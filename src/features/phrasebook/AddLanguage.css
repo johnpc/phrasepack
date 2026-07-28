@@ -1,0 +1,37 @@
+.pp-add-intro {
+  font-size: 0.95rem;
+  margin: 0 0 16px;
+}
+
+.pp-add-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.pp-add-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 12px;
+  border: 1px solid var(--pp-border);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface);
+  box-shadow: var(--pp-shadow);
+  cursor: pointer;
+  text-align: center;
+}
+
+.pp-add-choice__flag {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.pp-add-choice__name {
+  font-size: 0.95rem;
+}
+
+.pp-add-choice__native {
+  font-size: 0.8rem;
+}

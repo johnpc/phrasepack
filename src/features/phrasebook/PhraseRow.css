@@ -1,0 +1,35 @@
+.pp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--pp-border);
+  list-style: none;
+}
+
+.pp-row__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.pp-row__translation {
+  font-size: 1.15rem;
+  color: var(--pp-text);
+  margin: 0;
+}
+
+.pp-row__source {
+  font-size: 0.85rem;
+  margin: 2px 0 0;
+}
+
+.pp-row__phonetic {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--pp-teal-soft);
+  color: var(--pp-teal);
+  font-size: 0.78rem;
+  font-weight: 500;
+}

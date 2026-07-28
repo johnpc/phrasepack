@@ -1,0 +1,40 @@
+.pp-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(92vw, 440px);
+  padding: 12px 14px;
+  border-radius: var(--pp-radius-sm);
+  background: var(--pp-text);
+  color: var(--pp-bg);
+  box-shadow: var(--pp-shadow-hover);
+  font-size: 0.9rem;
+}
+
+.pp-toast__msg {
+  flex: 1;
+}
+
+.pp-toast__action {
+  font-weight: 600;
+  color: var(--pp-accent-strong);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.pp-toast__close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}

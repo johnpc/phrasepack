@@ -1,0 +1,30 @@
+.pp-loadstate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40vh;
+  text-align: center;
+  padding: 24px;
+}
+
+.pp-loadstate__emoji {
+  font-size: 2.5rem;
+}
+
+.pp-loadstate__title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.pp-loadstate__retry {
+  margin-top: 4px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--pp-radius-sm);
+  background: var(--pp-accent);
+  color: var(--pp-accent-contrast);
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "phrasepack",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

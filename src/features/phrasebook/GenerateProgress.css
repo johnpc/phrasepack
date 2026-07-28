@@ -1,0 +1,19 @@
+.pp-gen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 60vh;
+  text-align: center;
+  padding: 24px;
+}
+
+.pp-gen__emoji {
+  font-size: 3rem;
+}
+
+.pp-gen p {
+  margin: 0;
+  max-width: 30ch;
+}

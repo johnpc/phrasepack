@@ -1,0 +1,40 @@
+.pp-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: none;
+  background: none;
+  color: var(--pp-accent);
+  cursor: pointer;
+  padding: 0;
+}
+
+.pp-play ion-icon {
+  font-size: 2rem;
+}
+
+.pp-play[data-state='playing'] {
+  color: var(--pp-teal);
+}
+
+.pp-play[data-state='error'] {
+  color: var(--pp-text-muted);
+}
+
+.pp-play--muted {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  color: var(--pp-text-muted);
+  opacity: 0.5;
+}
+
+.pp-play--muted ion-icon {
+  font-size: 1.5rem;
+}

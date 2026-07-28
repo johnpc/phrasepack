@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PhrasePack</string>
+    <string name="title_activity_main">PhrasePack</string>
+    <string name="package_name">com.johncorser.phrasepack</string>
+    <string name="custom_url_scheme">com.johncorser.phrasepack</string>
+</resources>

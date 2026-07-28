@@ -1,0 +1,55 @@
+.pp-langcard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  border: 1px solid var(--pp-border);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface);
+  box-shadow: var(--pp-shadow);
+  cursor: pointer;
+}
+
+.pp-langcard__flag {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.pp-langcard__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pp-langcard__name {
+  font-size: 1.05rem;
+}
+
+.pp-langcard__meta {
+  font-size: 0.85rem;
+}
+
+.pp-langcard__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--pp-accent-soft);
+  color: var(--pp-accent-strong);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.pp-langcard__chev {
+  color: var(--pp-text-muted);
+  font-size: 1.2rem;
+  flex: 0 0 auto;
+}

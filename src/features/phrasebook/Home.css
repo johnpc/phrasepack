@@ -1,0 +1,37 @@
+.pp-home__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pp-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 2px dashed var(--pp-accent);
+  border-radius: var(--pp-radius);
+  background: var(--pp-accent-soft);
+  color: var(--pp-accent-strong);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.pp-add ion-icon {
+  font-size: 1.3rem;
+}
+
+.pp-iconbtn {
+  background: none;
+  border: none;
+  color: var(--pp-text);
+  font-size: 1.4rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}

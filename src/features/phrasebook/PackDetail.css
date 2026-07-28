@@ -1,0 +1,12 @@
+.pp-section {
+  margin-bottom: 24px;
+}
+
+.pp-section .pp-kicker {
+  margin: 0 0 4px;
+}
+
+.pp-section__list {
+  margin: 0;
+  padding: 0;
+}
