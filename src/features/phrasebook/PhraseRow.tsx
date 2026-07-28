@@ -1,12 +1,37 @@
+import { IonIcon } from '@ionic/react';
+import { star, starOutline } from 'ionicons/icons';
 import type { PhraseRecord } from '../../lib/dataClient';
 import { PlayButton } from './PlayButton';
 import './PhraseRow.css';
 
-/** One phrase: the foreign translation as the hero, the English source beneath,
- * the phonetic reading as a chip, and a play button for the spoken audio. */
-export function PhraseRow({ phrase }: { phrase: PhraseRecord }) {
+/** One phrase: a favorite star, the foreign translation as the hero, the
+ * English source beneath, the phonetic reading as a chip, and a play button for
+ * the spoken audio. */
+export function PhraseRow({
+  phrase,
+  isFavorite = false,
+  onToggleFavorite,
+}: {
+  phrase: PhraseRecord;
+  isFavorite?: boolean;
+  onToggleFavorite?: (slug: string) => void;
+}) {
   return (
     <li className="pp-row" data-testid="phrase-row">
+      {onToggleFavorite && (
+        <button
+          className="pp-row__star"
+          data-testid="phrase-favorite"
+          data-favorite={isFavorite}
+          aria-pressed={isFavorite}
+          aria-label={
+            isFavorite ? `Unfavorite ${phrase.sourceText}` : `Favorite ${phrase.sourceText}`
+          }
+          onClick={() => onToggleFavorite(phrase.phraseKeySlug)}
+        >
+          <IonIcon icon={isFavorite ? star : starOutline} aria-hidden="true" />
+        </button>
+      )}
       <div className="pp-row__text">
         <p
           className="pp-row__translation pp-phrase"

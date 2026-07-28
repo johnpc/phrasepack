@@ -29,3 +29,8 @@ Feature: View a language pack
     When they search the pack for "taxi"
     Then the phrase "Necesito un taxi" is visible with its English "I need a taxi"
     And the phrase "Gracias" is not visible
+
+  Scenario: Favoriting a phrase pins it to a Favorites section on top
+    Given a visitor opens the "Spanish (Spain)" pack
+    When they favorite the "La cuenta, por favor" phrase
+    Then a "★ Favorites" section is pinned at the top of the pack

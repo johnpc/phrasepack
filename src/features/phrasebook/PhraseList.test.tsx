@@ -8,13 +8,14 @@ import type { PhraseRecord } from '../../lib/dataClient';
 const renderList = (phrases: PhraseRecord[]) =>
   render(
     <QueryClientProvider client={new QueryClient()}>
-      <PhraseList phrases={phrases} />
+      <PhraseList languageId="lang-es-es" phrases={phrases} />
     </QueryClientProvider>,
   );
 
 const p = (over: Partial<PhraseRecord>): PhraseRecord =>
   ({
     id: over.sourceText,
+    phraseKeySlug: over.sourceText,
     ord: 0,
     categorySlug: 'transport',
     phonetic: '',

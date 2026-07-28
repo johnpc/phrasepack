@@ -77,3 +77,14 @@ When('they search the pack for {string}', async ({ page }, query: string) => {
 Then('the phrase {string} is not visible', async ({ page }, translation: string) => {
   await expect(page.getByTestId('phrase-row').filter({ hasText: translation })).toHaveCount(0);
 });
+
+When('they favorite the {string} phrase', async ({ page }, translation: string) => {
+  const row = page.getByTestId('phrase-row').filter({ hasText: translation });
+  await expect(row).toBeVisible({ timeout: 15_000 });
+  await row.getByTestId('phrase-favorite').click();
+});
+
+Then('a {string} section is pinned at the top of the pack', async ({ page }, label: string) => {
+  const headers = page.locator('.pp-kicker');
+  await expect(headers.first()).toHaveText(label, { timeout: 15_000 });
+});

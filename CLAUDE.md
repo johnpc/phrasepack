@@ -203,3 +203,6 @@ Significant, hard-to-reverse choices (read before re-opening a settled question)
   no meaningful quality risk here. Single text-gen entry point (`langgen/shared/bedrock.ts`).
 - **Audio failure is non-fatal.** A phrase still renders (and reads) with text + phonetics; the
   PlayButton shows a muted state when there's no audio.
+- **Favorites are per-device (localStorage), keyed by phraseKeySlug.** No account (guest-first), and
+  keying by slug (not row id) means a pack regeneration keeps your stars. See
+  `favoritesStore.ts` + `useFavorites.ts`.
