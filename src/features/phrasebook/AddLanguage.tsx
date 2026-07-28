@@ -7,10 +7,10 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { usePublishedLanguages } from './languagesApi';
-import { availableToGenerate } from './languageCatalog';
+import { availableToGenerate, type CatalogLanguage } from './languageCatalog';
 import { useGenerate } from './useGenerate';
 import { GenerateProgress } from './GenerateProgress';
 import { LoadState } from '../shell/LoadState';
@@ -23,7 +23,13 @@ export function AddLanguage() {
   const history = useHistory();
   const existing = usePublishedLanguages();
   const { phase, languageId, generate } = useGenerate();
+  const [picked, setPicked] = useState<CatalogLanguage | null>(null);
   const choices = availableToGenerate((existing.data ?? []).map((l) => l.locale));
+
+  const pick = (c: CatalogLanguage) => {
+    setPicked(c);
+    generate(c);
+  };
 
   useEffect(() => {
     if (phase === 'done' && languageId) history.replace(`/pack/${languageId}`);
@@ -61,7 +67,7 @@ export function AddLanguage() {
                     className="pp-add-choice"
                     data-testid="catalog-choice"
                     data-locale={c.locale}
-                    onClick={() => generate(c)}
+                    onClick={() => pick(c)}
                   >
                     <span className="pp-add-choice__flag" aria-hidden="true">
                       {c.flagEmoji}
@@ -73,7 +79,12 @@ export function AddLanguage() {
               </div>
             </LoadState>
           ) : (
-            <GenerateProgress phase={phase} onRetry={() => history.replace('/add')} />
+            <GenerateProgress
+              phase={phase}
+              languageName={picked?.name}
+              flagEmoji={picked?.flagEmoji}
+              onRetry={() => history.replace('/add')}
+            />
           )}
         </div>
       </IonContent>
