@@ -60,6 +60,11 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4"
   },
+  "overrides": {
+    "@opentelemetry/core": "2.10.0",
+    "@opentelemetry/resources": "2.10.0",
+    "@opentelemetry/sdk-trace-base": "2.10.0"
+  },
   "devDependencies": {
     "@aws-amplify/backend": "^1.23.0",
     "@aws-amplify/backend-cli": "^1.8.3",
