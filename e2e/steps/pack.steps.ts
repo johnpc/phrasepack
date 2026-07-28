@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
-const { Given, Then } = createBdd();
+const { Given, When, Then } = createBdd();
 
 /** Open a named pack by clicking its card from home — exercises the real
  * navigation + phrase read path (not a guessed URL). */
@@ -67,4 +67,13 @@ Then('every phrase row has a play control', async ({ page }) => {
 Then('the pack shows a retry, not a blank list', async ({ page }) => {
   await expect(page.getByTestId('load-error')).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId('load-retry')).toBeVisible();
+});
+
+When('they search the pack for {string}', async ({ page }, query: string) => {
+  await expect(page.getByTestId('phrase-sections')).toBeVisible({ timeout: 15_000 });
+  await page.getByTestId('phrase-search').fill(query);
+});
+
+Then('the phrase {string} is not visible', async ({ page }, translation: string) => {
+  await expect(page.getByTestId('phrase-row').filter({ hasText: translation })).toHaveCount(0);
 });
