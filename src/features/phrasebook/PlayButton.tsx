@@ -13,9 +13,12 @@ export function PlayButton({ audioPath, label }: { audioPath?: string | null; la
   const { state, toggle, canPlay } = useAudioPlayer(url);
 
   if (!audioPath) {
+    // Non-interactive, so no aria-label (prohibited on a span with no role);
+    // the meaning is conveyed by visually-hidden text + a hover title.
     return (
-      <span className="pp-play pp-play--muted" aria-label="No audio available" title="No audio">
+      <span className="pp-play pp-play--muted" title="No audio">
         <IonIcon icon={volumeMuteOutline} aria-hidden="true" />
+        <span className="pp-sr-only">No audio available</span>
       </span>
     );
   }

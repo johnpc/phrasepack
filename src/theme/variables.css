@@ -21,9 +21,12 @@
   --pp-accent-soft: #fdeee9;
   --pp-accent-gradient: linear-gradient(135deg, #f2825f 0%, #d9532f 100%);
 
-  /* Teal secondary — the phonetic chips, playing state, category dots. */
+  /* Teal secondary — the playing state, category dots. */
   --pp-teal: #1f7a7a;
   --pp-teal-soft: #e3f2f2;
+  /* Darker teal for TEXT on --pp-teal-soft (the phonetic chip): #1f7a7a was
+     only ~3.9:1 on the soft fill; #0f5f5f clears WCAG AA 4.5:1. */
+  --pp-teal-strong: #0f5f5f;
 
   --pp-bg: #fbf6f1;
   --pp-surface: #ffffff;
@@ -70,6 +73,7 @@
     --pp-accent-soft: #35211a;
     --pp-teal: #4fbdbd;
     --pp-teal-soft: #16302f;
+    --pp-teal-strong: #7fd4d4;
     --pp-bg: #17120f;
     --pp-surface: #211a15;
     --pp-border: #322822;
@@ -98,6 +102,7 @@
   --pp-accent-soft: #35211a;
   --pp-teal: #4fbdbd;
   --pp-teal-soft: #16302f;
+  --pp-teal-strong: #7fd4d4;
   --pp-bg: #17120f;
   --pp-surface: #211a15;
   --pp-border: #322822;

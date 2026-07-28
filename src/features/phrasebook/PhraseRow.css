@@ -29,7 +29,7 @@
   padding: 2px 8px;
   border-radius: 999px;
   background: var(--pp-teal-soft);
-  color: var(--pp-teal);
+  color: var(--pp-teal-strong);
   font-size: 0.78rem;
   font-weight: 500;
 }
