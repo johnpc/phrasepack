@@ -40,40 +40,42 @@ export function AddLanguage() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {phase === 'idle' ? (
-          <LoadState
-            isLoading={existing.isLoading}
-            isError={existing.isError}
-            isEmpty={choices.length === 0}
-            onRetry={() => void existing.refetch()}
-            emptyTitle="All caught up"
-            emptyMessage="You’ve generated every language in the catalog."
-          >
-            <p className="pp-add-intro pp-muted">
-              Pick a language and we’ll generate a travel phrasebook for it — spelling, phonetics,
-              and spoken audio for every key phrase.
-            </p>
-            <div className="pp-add-grid" data-testid="catalog-list">
-              {choices.map((c) => (
-                <button
-                  key={c.locale}
-                  className="pp-add-choice"
-                  data-testid="catalog-choice"
-                  data-locale={c.locale}
-                  onClick={() => generate(c)}
-                >
-                  <span className="pp-add-choice__flag" aria-hidden="true">
-                    {c.flagEmoji}
-                  </span>
-                  <span className="pp-add-choice__name pp-heading">{c.name}</span>
-                  <span className="pp-add-choice__native pp-muted">{c.nativeName}</span>
-                </button>
-              ))}
-            </div>
-          </LoadState>
-        ) : (
-          <GenerateProgress phase={phase} onRetry={() => history.replace('/add')} />
-        )}
+        <div className="pp-container pp-container--wide">
+          {phase === 'idle' ? (
+            <LoadState
+              isLoading={existing.isLoading}
+              isError={existing.isError}
+              isEmpty={choices.length === 0}
+              onRetry={() => void existing.refetch()}
+              emptyTitle="All caught up"
+              emptyMessage="You’ve generated every language in the catalog."
+            >
+              <p className="pp-add-intro pp-muted">
+                Pick a language and we’ll generate a travel phrasebook for it — spelling, phonetics,
+                and spoken audio for every key phrase.
+              </p>
+              <div className="pp-add-grid" data-testid="catalog-list">
+                {choices.map((c) => (
+                  <button
+                    key={c.locale}
+                    className="pp-add-choice"
+                    data-testid="catalog-choice"
+                    data-locale={c.locale}
+                    onClick={() => generate(c)}
+                  >
+                    <span className="pp-add-choice__flag" aria-hidden="true">
+                      {c.flagEmoji}
+                    </span>
+                    <span className="pp-add-choice__name pp-heading">{c.name}</span>
+                    <span className="pp-add-choice__native pp-muted">{c.nativeName}</span>
+                  </button>
+                ))}
+              </div>
+            </LoadState>
+          ) : (
+            <GenerateProgress phase={phase} onRetry={() => history.replace('/add')} />
+          )}
+        </div>
       </IonContent>
     </IonPage>
   );

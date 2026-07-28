@@ -1,7 +1,15 @@
 .pp-home__grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
+}
+
+/* Two-up once there's room, so a long list of packs fills the reading column
+ * on tablet/desktop instead of a single tall stack. */
+@media (min-width: 640px) {
+  .pp-home__grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .pp-add {
