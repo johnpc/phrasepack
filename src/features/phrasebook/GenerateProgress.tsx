@@ -2,10 +2,18 @@ import { IonButton, IonSpinner } from '@ionic/react';
 import type { GenPhase } from './useGenerate';
 import './GenerateProgress.css';
 
+interface Props {
+  phase: GenPhase;
+  languageName?: string;
+  flagEmoji?: string;
+  onRetry: () => void;
+}
+
 /** The full-screen state shown while a pack generates (and on failure). The
  * 'done' phase is handled by the caller (it navigates to the new pack), so this
- * only renders the working + failed states. */
-export function GenerateProgress({ phase, onRetry }: { phase: GenPhase; onRetry: () => void }) {
+ * only renders the working + failed states. Naming the language + showing its
+ * flag makes the ~minute wait feel personal and confirms what's being built. */
+export function GenerateProgress({ phase, languageName, flagEmoji, onRetry }: Props) {
   if (phase === 'failed') {
     return (
       <div className="pp-gen" role="alert" data-testid="generate-failed">
@@ -20,10 +28,18 @@ export function GenerateProgress({ phase, onRetry }: { phase: GenPhase; onRetry:
       </div>
     );
   }
+  const what = languageName ? `your ${languageName} phrasebook` : 'your phrasebook';
   return (
     <div className="pp-gen" data-testid="generate-progress">
-      <IonSpinner name="crescent" />
-      <p className="pp-heading">Building your phrasebook…</p>
+      {flagEmoji ? (
+        <div className="pp-gen__flag" aria-hidden="true">
+          {flagEmoji}
+        </div>
+      ) : (
+        <IonSpinner name="crescent" />
+      )}
+      <IonSpinner className="pp-gen__spinner" name="dots" />
+      <p className="pp-heading">Building {what}…</p>
       <p className="pp-muted">
         Translating the key phrases and recording the audio. This takes about a minute.
       </p>

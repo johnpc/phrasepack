@@ -13,6 +13,16 @@ describe('GenerateProgress', () => {
     expect(screen.getByTestId('generate-progress')).toBeInTheDocument();
   });
 
+  it('names the language and shows its flag when provided', () => {
+    render(
+      <GenerateProgress phase="running" languageName="German" flagEmoji="🇩🇪" onRetry={vi.fn()} />,
+    );
+    expect(screen.getByTestId('generate-progress')).toHaveTextContent(
+      'Building your German phrasebook',
+    );
+    expect(screen.getByText('🇩🇪')).toBeInTheDocument();
+  });
+
   it('shows a failure alert and Try again calls onRetry', () => {
     const onRetry = vi.fn();
     render(<GenerateProgress phase="failed" onRetry={onRetry} />);

@@ -13,6 +13,29 @@
   font-size: 3rem;
 }
 
+/* The picked language's flag, gently pulsing to signal work-in-progress. */
+.pp-gen__flag {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: pp-gen-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pp-gen-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+.pp-gen__spinner {
+  color: var(--pp-accent);
+}
+
 .pp-gen p {
   margin: 0;
   max-width: 30ch;
