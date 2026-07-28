@@ -13,6 +13,16 @@
 
 **Play instantly as a guest — no account required.** Browse, open a pack, hear every phrase, and even generate a brand-new language, all without signing in.
 
+## Screenshots
+
+<p align="center">
+  <img src="https://files.jpc.io/d/GpzNv-de-mobile.png" alt="A generated German pack on mobile — correct spelling, phonetics, and a play button per phrase" width="300" />
+  &nbsp;&nbsp;
+  <img src="https://files.jpc.io/d/ZtdRL-de-desktop.png" alt="The same German pack on desktop, in a centered reading column" width="480" />
+</p>
+
+<p align="center"><em>A German pack generated in-app — real spelling, phonetics, and spoken audio on every phrase.</em></p>
+
 ## Features
 
 | Feature                                           | Status |
