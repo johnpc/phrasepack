@@ -52,7 +52,9 @@ export function LoadState({
   if (isLoading) {
     return (
       <div className="pp-loadstate" data-testid="load-spinner">
-        <IonSpinner name="crescent" />
+        {/* aria-label names the progressbar for screen readers (axe
+            aria-progressbar-name); role=status announces the loading state. */}
+        <IonSpinner name="crescent" role="status" aria-label="Loading" />
       </div>
     );
   }

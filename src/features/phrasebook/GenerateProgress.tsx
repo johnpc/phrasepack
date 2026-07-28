@@ -30,15 +30,17 @@ export function GenerateProgress({ phase, languageName, flagEmoji, onRetry }: Pr
   }
   const what = languageName ? `your ${languageName} phrasebook` : 'your phrasebook';
   return (
-    <div className="pp-gen" data-testid="generate-progress">
+    <div className="pp-gen" data-testid="generate-progress" role="status">
+      {/* Decorative — the heading announces the state; hide from AT so the
+          spinners don't need their own name (axe aria-progressbar-name). */}
       {flagEmoji ? (
         <div className="pp-gen__flag" aria-hidden="true">
           {flagEmoji}
         </div>
       ) : (
-        <IonSpinner name="crescent" />
+        <IonSpinner name="crescent" aria-hidden="true" />
       )}
-      <IonSpinner className="pp-gen__spinner" name="dots" />
+      <IonSpinner className="pp-gen__spinner" name="dots" aria-hidden="true" />
       <p className="pp-heading">Building {what}…</p>
       <p className="pp-muted">
         Translating the key phrases and recording the audio. This takes about a minute.
