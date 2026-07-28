@@ -19,7 +19,9 @@ describe('PlayButton', () => {
 
   it('renders a muted state when there is no audioPath', () => {
     render(<PlayButton audioPath={null} label="Hello" />);
-    expect(screen.getByLabelText('No audio available')).toBeInTheDocument();
+    // Conveyed by visually-hidden text (not aria-label, which is prohibited on
+    // a non-interactive span — see the a11y fix).
+    expect(screen.getByText('No audio available')).toBeInTheDocument();
     expect(screen.queryByTestId('phrase-play')).not.toBeInTheDocument();
   });
 

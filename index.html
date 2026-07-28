@@ -11,10 +11,9 @@
       name="description"
       content="AI-generated travel phrasebooks in any language — correct spelling, phonetics, and spoken audio for the phrases you actually need."
     />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <!-- Allow pinch-zoom (no maximum-scale / user-scalable=no) — disabling it
+         fails WCAG 1.4.4. viewport-fit=cover keeps safe-area insets working. -->
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
 
