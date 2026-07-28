@@ -7,6 +7,33 @@
   list-style: none;
 }
 
+.pp-row__star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: none;
+  background: none;
+  color: var(--pp-text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s ease;
+}
+
+.pp-row__star ion-icon {
+  font-size: 1.4rem;
+}
+
+.pp-row__star[data-favorite='true'] {
+  color: var(--pp-accent);
+}
+
+.pp-row__star:active {
+  transform: scale(0.85);
+}
+
 .pp-row__text {
   flex: 1;
   min-width: 0;

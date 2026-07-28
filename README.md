@@ -30,6 +30,7 @@
 | Browse your language packs                        | ✅     |
 | Phrase list with correct spelling + phonetics     | ✅     |
 | Search a pack by English, translation, or sound   | ✅     |
+| Favorite phrases (pinned to the top, per device)  | ✅     |
 | Tap-to-play spoken audio per phrase               | ✅     |
 | Generate a pack for any language with AI (in-app) | ✅     |
 | Refresh a pack to fill in newly-added key phrases | ✅     |

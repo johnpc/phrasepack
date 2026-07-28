@@ -50,7 +50,7 @@ export function PackDetail() {
             emptyTitle="No phrases yet"
             emptyMessage="This pack is still being generated — check back in a moment."
           >
-            <PhraseList phrases={rows} />
+            <PhraseList languageId={id} phrases={rows} />
           </LoadState>
         </div>
       </IonContent>
