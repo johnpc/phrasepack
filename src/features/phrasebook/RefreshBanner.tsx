@@ -31,9 +31,10 @@ export function RefreshBanner({ language }: { language: LanguageRecord }) {
         className="pp-refresh__btn"
         data-testid="refresh-button"
         disabled={busy}
+        aria-label={busy ? 'Refreshing' : 'Refresh'}
         onClick={() => regenerate(language.id)}
       >
-        {busy ? <IonSpinner name="crescent" /> : 'Refresh'}
+        {busy ? <IonSpinner name="crescent" aria-hidden="true" /> : 'Refresh'}
       </button>
     </div>
   );

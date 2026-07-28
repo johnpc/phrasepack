@@ -121,6 +121,8 @@ jobs:
             paths: .features-gen/e2e/features/pack
           - name: generate
             paths: .features-gen/e2e/features/generate
+          - name: a11y
+            paths: .features-gen/e2e/features/a11y
     steps:
       - uses: actions/checkout@v7
 
