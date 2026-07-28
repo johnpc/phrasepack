@@ -48,6 +48,16 @@
   --ion-font-family: var(--pp-font-sans);
   --ion-toolbar-background: var(--pp-surface);
   --ion-toolbar-color: var(--pp-text);
+
+  /* Map Ionic's primary color to the brand coral so EVERY Ionic component
+     (IonButton, IonRadio, IonSpinner, IonBackButton…) is on-brand instead of
+     the default blue. Ionic needs the -rgb, -shade, -tint, -contrast variants. */
+  --ion-color-primary: #c8482b;
+  --ion-color-primary-rgb: 200, 72, 43;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #b03f26;
+  --ion-color-primary-tint: #ce5a40;
 }
 
 /* Shared dark palette, applied both when the OS prefers dark AND when the user
@@ -69,6 +79,15 @@
     --pp-text-muted: #a99e92;
     --pp-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.35);
     --pp-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.45);
+
+    /* Brand coral for Ionic components in dark mode. The lighter coral needs
+       DARK contrast text to clear WCAG AA on a filled button. */
+    --ion-color-primary: #f0805d;
+    --ion-color-primary-rgb: 240, 128, 93;
+    --ion-color-primary-contrast: #17120f;
+    --ion-color-primary-contrast-rgb: 23, 18, 15;
+    --ion-color-primary-shade: #d37152;
+    --ion-color-primary-tint: #f28d6d;
   }
 }
 
@@ -88,6 +107,13 @@
   --pp-text-muted: #a99e92;
   --pp-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.35);
   --pp-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.45);
+
+  --ion-color-primary: #f0805d;
+  --ion-color-primary-rgb: 240, 128, 93;
+  --ion-color-primary-contrast: #17120f;
+  --ion-color-primary-contrast-rgb: 23, 18, 15;
+  --ion-color-primary-shade: #d37152;
+  --ion-color-primary-tint: #f28d6d;
 }
 
 body {
