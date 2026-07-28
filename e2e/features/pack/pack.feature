@@ -23,3 +23,9 @@ Feature: View a language pack
   Scenario: A pack surfaces a retry when its phrases fail to load
     Given a visitor opens the "Spanish (Spain)" pack with phrase reads failing
     Then the pack shows a retry, not a blank list
+
+  Scenario: Searching filters the pack to matching phrases
+    Given a visitor opens the "Spanish (Spain)" pack
+    When they search the pack for "taxi"
+    Then the phrase "Necesito un taxi" is visible with its English "I need a taxi"
+    And the phrase "Gracias" is not visible

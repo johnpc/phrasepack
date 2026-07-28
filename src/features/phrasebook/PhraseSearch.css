@@ -1,0 +1,57 @@
+.pp-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pp-search__icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1.15rem;
+  color: var(--pp-text-muted);
+  pointer-events: none;
+}
+
+.pp-search__input {
+  width: 100%;
+  padding: 12px 40px;
+  border: 1px solid var(--pp-border);
+  border-radius: 999px;
+  background: var(--pp-surface);
+  color: var(--pp-text);
+  font-size: 1rem;
+  font-family: var(--pp-font-sans);
+}
+
+.pp-search__input::placeholder {
+  color: var(--pp-text-muted);
+}
+
+.pp-search__input:focus {
+  border-color: var(--pp-accent);
+  outline: none;
+}
+
+/* Hide the native WebKit search cancel — we render our own clear button. */
+.pp-search__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.pp-search__clear {
+  position: absolute;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--pp-text-muted);
+  cursor: pointer;
+}
+
+.pp-search__clear ion-icon {
+  font-size: 1.3rem;
+}
