@@ -45,6 +45,25 @@
   margin: 0;
 }
 
+/* The translation-as-button (opens the full-screen show view). Looks like text,
+ * acts like a tap target. */
+.pp-row__translation--show {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-row__translation--show:hover {
+    color: var(--pp-accent-strong);
+  }
+}
+
 .pp-row__source {
   font-size: 0.85rem;
   margin: 2px 0 0;

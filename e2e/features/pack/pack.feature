@@ -34,3 +34,8 @@ Feature: View a language pack
     Given a visitor opens the "Spanish (Spain)" pack
     When they favorite the "La cuenta, por favor" phrase
     Then a "★ Favorites" section is pinned at the top of the pack
+
+  Scenario: Tapping a phrase shows it full-screen to hold up
+    Given a visitor opens the "Spanish (Spain)" pack
+    When they tap the "La cuenta, por favor" phrase to show it
+    Then the phrase is shown full-screen in large type

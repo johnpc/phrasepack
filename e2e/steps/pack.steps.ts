@@ -88,3 +88,14 @@ Then('a {string} section is pinned at the top of the pack', async ({ page }, lab
   const headers = page.locator('.pp-kicker');
   await expect(headers.first()).toHaveText(label, { timeout: 15_000 });
 });
+
+When('they tap the {string} phrase to show it', async ({ page }, translation: string) => {
+  const row = page.getByTestId('phrase-row').filter({ hasText: translation });
+  await expect(row).toBeVisible({ timeout: 15_000 });
+  await row.getByTestId('phrase-show').click();
+});
+
+Then('the phrase is shown full-screen in large type', async ({ page }) => {
+  await expect(page.getByTestId('show-phrase')).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByTestId('show-close')).toBeVisible();
+});

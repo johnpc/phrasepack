@@ -1,0 +1,69 @@
+.pp-show {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 24px
+    calc(24px + env(safe-area-inset-bottom, 0px));
+  background: var(--pp-bg);
+}
+
+.pp-show__close {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: none;
+  color: var(--pp-text-muted);
+  cursor: pointer;
+}
+
+.pp-show__close ion-icon {
+  font-size: 1.8rem;
+}
+
+.pp-show__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  max-width: 800px;
+}
+
+.pp-show__translation {
+  /* Fluid: big on a phone held up, huge on a desktop. */
+  font-size: clamp(2.5rem, 12vw, 6rem);
+  line-height: 1.1;
+  color: var(--pp-text);
+  margin: 0;
+}
+
+.pp-show__phonetic {
+  font-size: clamp(1.1rem, 4vw, 2rem);
+  color: var(--pp-teal-strong);
+  margin: 0;
+}
+
+.pp-show__source {
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  margin: 0;
+}
+
+/* Enlarge the play button on the show screen. */
+.pp-show__content .pp-play {
+  width: 64px;
+  height: 64px;
+  flex-basis: 64px;
+}
+
+.pp-show__content .pp-play ion-icon {
+  font-size: 3rem;
+}
