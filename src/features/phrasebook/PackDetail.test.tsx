@@ -59,7 +59,8 @@ describe('PackDetail', () => {
     };
     render(<PackDetail />);
     expect(screen.getByTestId('phrase-sections')).toBeInTheDocument();
-    expect(screen.getByTestId('phrase-translation')).toHaveTextContent('Hola');
+    // The translation is now a tappable "show it" button (data-testid changed).
+    expect(screen.getByTestId('phrase-show')).toHaveTextContent('Hola');
   });
 
   it('shows the error state and Retry calls refetch', () => {

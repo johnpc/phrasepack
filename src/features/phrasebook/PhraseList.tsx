@@ -6,6 +6,7 @@ import { partitionFavorites } from './partitionFavorites';
 import { PHRASE_CATEGORIES } from './phraseCategories';
 import { PhraseSection } from './PhraseSection';
 import { PhraseSearch } from './PhraseSearch';
+import { ShowPhrase } from './ShowPhrase';
 import { useFavorites } from './useFavorites';
 import './PackDetail.css';
 
@@ -21,6 +22,7 @@ export function PhraseList({
   phrases: PhraseRecord[];
 }) {
   const [query, setQuery] = useState('');
+  const [shown, setShown] = useState<PhraseRecord | null>(null);
   const { favorites, toggle } = useFavorites(languageId);
 
   const { favSection, sections } = useMemo(() => {
@@ -53,6 +55,7 @@ export function PhraseList({
               phrases={favSection}
               favorites={favorites}
               onToggleFavorite={toggle}
+              onShow={setShown}
             />
           )}
           {sections.map((s) => (
@@ -62,10 +65,12 @@ export function PhraseList({
               phrases={s.phrases}
               favorites={favorites}
               onToggleFavorite={toggle}
+              onShow={setShown}
             />
           ))}
         </div>
       )}
+      {shown && <ShowPhrase phrase={shown} onClose={() => setShown(null)} />}
     </>
   );
 }

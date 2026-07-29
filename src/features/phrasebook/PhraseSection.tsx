@@ -8,11 +8,13 @@ export function PhraseSection({
   phrases,
   favorites,
   onToggleFavorite,
+  onShow,
 }: {
   label: string;
   phrases: PhraseRecord[];
   favorites: Set<string>;
   onToggleFavorite: (slug: string) => void;
+  onShow: (phrase: PhraseRecord) => void;
 }) {
   return (
     <section className="pp-section">
@@ -24,6 +26,7 @@ export function PhraseSection({
             phrase={phrase}
             isFavorite={favorites.has(phrase.phraseKeySlug)}
             onToggleFavorite={onToggleFavorite}
+            onShow={onShow}
           />
         ))}
       </ul>

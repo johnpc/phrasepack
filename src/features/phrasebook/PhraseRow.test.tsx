@@ -29,4 +29,29 @@ describe('PhraseRow', () => {
     render(<PhraseRow phrase={phrase({ phonetic: null })} />);
     expect(screen.queryByTestId('phrase-phonetic')).not.toBeInTheDocument();
   });
+
+  it('renders a favorite star and toggles it by slug', () => {
+    const onToggleFavorite = vi.fn();
+    render(
+      <PhraseRow
+        phrase={phrase({ phraseKeySlug: 'hello' })}
+        isFavorite
+        onToggleFavorite={onToggleFavorite}
+      />,
+    );
+    const star = screen.getByTestId('phrase-favorite');
+    expect(star).toHaveAttribute('data-favorite', 'true');
+    star.click();
+    expect(onToggleFavorite).toHaveBeenCalledWith('hello');
+  });
+
+  it('renders the translation as a show button when onShow is given', () => {
+    const onShow = vi.fn();
+    const p = phrase();
+    render(<PhraseRow phrase={p} onShow={onShow} />);
+    const btn = screen.getByTestId('phrase-show');
+    expect(btn).toHaveTextContent('Hola');
+    btn.click();
+    expect(onShow).toHaveBeenCalledWith(p);
+  });
 });
