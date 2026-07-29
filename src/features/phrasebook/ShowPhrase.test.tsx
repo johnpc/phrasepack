@@ -44,4 +44,13 @@ describe('ShowPhrase', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('moves focus to the close button on open and closes when it is clicked', () => {
+    const onClose = vi.fn();
+    render(<ShowPhrase phrase={phrase()} onClose={onClose} />);
+    const closeBtn = screen.getByTestId('show-close');
+    expect(document.activeElement).toBe(closeBtn);
+    fireEvent.click(closeBtn);
+    expect(onClose).toHaveBeenCalled();
+  });
 });
