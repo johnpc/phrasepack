@@ -59,8 +59,11 @@ Then('every phrase row has a play control', async ({ page }) => {
   const rows = page.getByTestId('phrase-row');
   const count = await rows.count();
   expect(count).toBeGreaterThan(0);
-  // A play control is either the active button or the muted (no-audio) marker.
-  const controls = page.locator('[data-testid="phrase-play"], .pp-play--muted');
+  // A play control is either the ready play button or the generate-on-demand
+  // button (a phrase with no audio yet — tapping it synthesizes + plays).
+  const controls = page.locator(
+    '[data-testid="phrase-play"], [data-testid="phrase-generate-audio"]',
+  );
   expect(await controls.count()).toBe(count);
 });
 
