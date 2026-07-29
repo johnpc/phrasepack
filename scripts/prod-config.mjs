@@ -20,12 +20,10 @@ import { promisify } from 'node:util';
 
 const run = promisify(execFile);
 
-// The prod Amplify app that serves spork.jpc.io (hosting + backend). The old
-// TODO: set to PhrasePack's prod Amplify Hosting app id once the prod app is
-// provisioned (connect the GitHub repo in the Amplify console → it creates the
-// app + `main` branch backend). Until then the iOS/Android deploy jobs that
-// call `prod-config` can't pull a prod backend — run them only after this is set.
-const APP_ID = 'REPLACE_WITH_PROD_AMPLIFY_APP_ID';
+// PhrasePack's prod Amplify Hosting app (hosting + `main` branch backend),
+// connected to github.com/johnpc/phrasepack. The iOS/Android deploy jobs pull
+// this backend's amplify_outputs.json before building the native app.
+const APP_ID = 'd3q736oljd6yh1';
 const BRANCH = 'main';
 const REGION = 'us-west-2';
 const PROFILE = 'personal';
