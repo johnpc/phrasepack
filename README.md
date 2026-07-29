@@ -34,7 +34,7 @@
 | Tap a phrase to show it full-screen to a local    | ✅     |
 | Share a pack with a travel companion              | ✅     |
 | Tap-to-play spoken audio per phrase               | ✅     |
-| Generate a pack for any language with AI (in-app) | ✅     |
+| Generate a pack for ANY language by name (in-app) | ✅     |
 | Refresh a pack to fill in newly-added key phrases | ✅     |
 | Works offline for packs you've already opened     | ✅     |
 | Light / dark / system theme                       | ✅     |
@@ -52,8 +52,10 @@ When you generate a language:
 
 1. A **guest-callable** `generateLanguage` mutation kicks off an async worker and returns immediately.
 2. The worker asks **Claude** (Bedrock, tool-forced structured output so the result is always a typed, validated array) to translate every catalog phrase into the target language — with correct spelling **and** a readable phonetic pronunciation.
-3. For each phrase, **Amazon Polly** synthesizes the spoken audio in that language's voice and stores the MP3 in S3.
+3. For each phrase, **Amazon Polly** synthesizes the spoken audio in that language's voice and stores the MP3 in S3 — for languages Polly supports. A language with no matching voice (a rarer request) still ships full text + phonetics, just without audio (never mis-voiced).
 4. The phrases + audio are written straight to DynamoDB, and the pack flips to **Published**.
+
+You can request **any language by name** (e.g. Swahili, Greek), not just the popular ones — the picker has a free-text field for exactly that.
 
 The whole thing takes about a minute; the app polls the generation run and drops you into the finished pack.
 

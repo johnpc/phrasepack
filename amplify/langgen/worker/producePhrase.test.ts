@@ -68,4 +68,13 @@ describe('producePhrase', () => {
     const item = e.putItem.mock.calls[0][1];
     expect(item.audioPath).toBeUndefined();
   });
+
+  it('skips audio entirely when the language has no voice (null)', async () => {
+    await producePhrase({ ...ctx, voice: null }, 'lang-x-swahili-thank-you', phrase);
+    expect(e.synthesizeSpeech).not.toHaveBeenCalled();
+    expect(e.putMedia).not.toHaveBeenCalled();
+    const item = e.putItem.mock.calls[0][1];
+    expect(item.audioPath).toBeUndefined();
+    expect(item.translation).toBe('Gracias');
+  });
 });

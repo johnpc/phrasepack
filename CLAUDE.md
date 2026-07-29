@@ -203,6 +203,10 @@ Significant, hard-to-reverse choices (read before re-opening a settled question)
   no meaningful quality risk here. Single text-gen entry point (`langgen/shared/bedrock.ts`).
 - **Audio failure is non-fatal.** A phrase still renders (and reads) with text + phonetics; the
   PlayButton shows a muted state when there's no audio.
+- **Any language, by name.** The picker has a free-text field beyond the popular catalog; a name with
+  no BCP-47/Polly match gets a custom `x-<slug>` locale. `voiceForLanguage` returns null for an
+  unsupported locale so the worker SKIPS audio rather than speaking foreign text in an English voice —
+  text + phonetics still ship. See `customLanguage.ts` + `voiceForLanguage.ts`.
 - **Favorites are per-device (localStorage), keyed by phraseKeySlug.** No account (guest-first), and
   keying by slug (not row id) means a pack regeneration keeps your stars. See
   `favoritesStore.ts` + `useFavorites.ts`.

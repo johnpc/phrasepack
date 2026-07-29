@@ -31,20 +31,15 @@ describe('voiceForLanguage', () => {
     expect(voiceForLanguage('ES-mx')).toMatchObject({ languageCode: 'es-ES' });
   });
 
-  it('defaults null/undefined to en-US / Joanna', () => {
-    expect(voiceForLanguage(null)).toEqual({
-      voiceId: 'Joanna',
-      languageCode: 'en-US',
-      engine: 'neural',
-    });
-    expect(voiceForLanguage(undefined).voiceId).toBe('Joanna');
+  it('returns null for null/undefined (no voice → skip audio)', () => {
+    expect(voiceForLanguage(null)).toBeNull();
+    expect(voiceForLanguage(undefined)).toBeNull();
   });
 
-  it('defaults an unknown language (no prefix match) to en-US / Joanna', () => {
-    expect(voiceForLanguage('xx-XX')).toEqual({
-      voiceId: 'Joanna',
-      languageCode: 'en-US',
-      engine: 'neural',
-    });
+  it('returns null for an unknown language with no prefix match', () => {
+    // A free-text "any language" request (x-swahili) or an unsupported locale
+    // gets no voice — the phrase still ships with correct spelling + phonetics.
+    expect(voiceForLanguage('xx-XX')).toBeNull();
+    expect(voiceForLanguage('x-swahili')).toBeNull();
   });
 });

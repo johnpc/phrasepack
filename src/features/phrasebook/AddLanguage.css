@@ -3,6 +3,10 @@
   margin: 0 0 16px;
 }
 
+.pp-add-heading {
+  margin: 0 0 10px;
+}
+
 .pp-add-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

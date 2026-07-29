@@ -5,8 +5,10 @@
  * the engine (most modern voices are 'neural'; a few only offer 'standard').
  *
  * Matching falls back progressively: exact locale ("pt-BR") → language prefix
- * ("pt" → first pt-* entry) → US English. So a pack for an unlisted regional
- * variant still speaks in the right language.
+ * ("pt" → first pt-* entry) → NULL. A null result means "no voice for this
+ * language" — the worker then SKIPS audio rather than speaking, say, Swahili
+ * text in an English voice (misleading pronunciation is worse than none). The
+ * phrase still ships with correct spelling + phonetics.
  */
 export interface Voice {
   voiceId: string;
@@ -45,16 +47,15 @@ const VOICE_BY_LOCALE: Record<string, Voice> = {
   'ru-RU': { voiceId: 'Tatyana', languageCode: 'ru-RU', engine: 'standard' },
 };
 
-const DEFAULT: Voice = VOICE_BY_LOCALE['en-US'];
-
-/** Resolve a Polly voice for a BCP-47 locale (exact → prefix → en-US). */
-export function voiceForLanguage(locale: string | null | undefined): Voice {
-  if (!locale) return DEFAULT;
+/** Resolve a Polly voice for a BCP-47 locale (exact → prefix → null when the
+ * language has no supported voice). */
+export function voiceForLanguage(locale: string | null | undefined): Voice | null {
+  if (!locale) return null;
   const exact = VOICE_BY_LOCALE[locale];
   if (exact) return exact;
   const prefix = locale.split('-')[0].toLowerCase();
   const match = Object.entries(VOICE_BY_LOCALE).find(([key]) =>
     key.toLowerCase().startsWith(`${prefix}-`),
   );
-  return match ? match[1] : DEFAULT;
+  return match ? match[1] : null;
 }
