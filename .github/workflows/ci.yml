@@ -123,6 +123,8 @@ jobs:
             paths: .features-gen/e2e/features/generate
           - name: a11y
             paths: .features-gen/e2e/features/a11y
+          - name: offline
+            paths: .features-gen/e2e/features/offline
     steps:
       - uses: actions/checkout@v7
 
