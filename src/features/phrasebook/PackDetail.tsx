@@ -13,6 +13,7 @@ import { usePhrases } from './phrasesApi';
 import { PackHeader } from './PackHeader';
 import { PhraseList } from './PhraseList';
 import { RefreshBanner } from './RefreshBanner';
+import { ShareButton } from './ShareButton';
 import { LoadState } from '../shell/LoadState';
 import './PackDetail.css';
 
@@ -36,6 +37,11 @@ export function PackDetail() {
             {lang.data?.flagEmoji ? `${lang.data.flagEmoji} ` : ''}
             {lang.data?.name ?? 'Pack'}
           </IonTitle>
+          {lang.data && (
+            <IonButtons slot="end">
+              <ShareButton language={lang.data} />
+            </IonButtons>
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
