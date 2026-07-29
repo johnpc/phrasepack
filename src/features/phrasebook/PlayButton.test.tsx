@@ -12,6 +12,8 @@ vi.mock('./useAudioPlayer', () => ({ useAudioPlayer: () => player.value }));
 const synth = vi.hoisted(() => ({ synthesize: vi.fn(), isSynthesizing: false }));
 vi.mock('./useSynthesizeAudio', () => ({ useSynthesizeAudio: () => synth }));
 
+vi.mock('../shell/toastBus', () => ({ showToast: vi.fn() }));
+
 import { PlayButton } from './PlayButton';
 
 const props = { phraseId: 'p1', languageId: 'lang-es-es', label: 'Hello' };
@@ -35,6 +37,17 @@ describe('PlayButton', () => {
     render(<PlayButton {...props} audioPath={null} />);
     screen.getByTestId('phrase-generate-audio').click();
     await waitFor(() => expect(synth.synthesize).toHaveBeenCalledWith('p1'));
+  });
+
+  it('shows a muted "no audio for this language" state when synth returns no voice', async () => {
+    synth.synthesize = vi.fn().mockResolvedValue(''); // empty path = no Polly voice (e.g. Greek)
+    render(<PlayButton {...props} audioPath={null} />);
+    screen.getByTestId('phrase-generate-audio').click();
+    await waitFor(() =>
+      expect(screen.getByText(/Audio isn.t available for this language/)).toBeInTheDocument(),
+    );
+    expect(screen.queryByTestId('phrase-generate-audio')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('phrase-play')).not.toBeInTheDocument();
   });
 
   it('renders a play button and toggles on click when audioPath is present', () => {
