@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { generateLanguageStarter } from '../langgen/start/resource';
+import { synthesizePhraseAudio } from '../langgen/synth/resource';
 
 /**
  * PHRASEPACK data schema.
@@ -129,6 +130,18 @@ const schema = a.schema({
     .returns(a.customType({ runId: a.string().required(), languageId: a.string().required() }))
     .authorization((allow) => [allow.guest(), allow.authenticated()])
     .handler(a.handler.function(generateLanguageStarter)),
+
+  // Record ONE phrase's spoken audio on demand — for a phrase with none yet (a
+  // seeded pack, or a language whose voice arrived later). Synchronous (a single
+  // Polly call); returns the S3 `path` (empty when the language has no voice, so
+  // the client keeps showing text + phonetics). GUEST-callable so anyone can
+  // tap-to-hear without an account.
+  synthesizePhraseAudio: a
+    .mutation()
+    .arguments({ phraseId: a.string().required() })
+    .returns(a.customType({ path: a.string().required() }))
+    .authorization((allow) => [allow.guest(), allow.authenticated()])
+    .handler(a.handler.function(synthesizePhraseAudio)),
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -5,6 +5,7 @@ import { data } from './data/resource';
 import { storage } from './storage/resource';
 import { generateLanguageStarter } from './langgen/start/resource';
 import { langgenWorker } from './langgen/worker/resource';
+import { synthesizePhraseAudio } from './langgen/synth/resource';
 
 /**
  * PHRASEPACK backend.
@@ -23,6 +24,7 @@ const backend = defineBackend({
   storage,
   generateLanguageStarter,
   langgenWorker,
+  synthesizePhraseAudio,
 });
 
 const tables = backend.data.resources.tables;
@@ -68,3 +70,14 @@ bucket.grantWrite(worker, 'media/phrases/*');
 tables['Phrase'].grantReadWriteData(worker); // read: gap-fill existence check
 tables['Language'].grantWriteData(worker);
 tables['GenerationRun'].grantWriteData(worker);
+
+// --- On-demand single-phrase audio: Polly + S3 write + Phrase(read/write) +
+// Language(read for the locale). Synchronous resolver, no worker. ---
+const synth = backend.synthesizePhraseAudio.resources.lambda;
+backend.synthesizePhraseAudio.addEnvironment('PHRASE_TABLE', tables['Phrase'].tableName);
+backend.synthesizePhraseAudio.addEnvironment('LANGUAGE_TABLE', tables['Language'].tableName);
+backend.synthesizePhraseAudio.addEnvironment('MEDIA_BUCKET', bucket.bucketName);
+synth.addToRolePolicy(pollyGrant());
+bucket.grantWrite(synth, 'media/phrases/*');
+tables['Phrase'].grantReadWriteData(synth);
+tables['Language'].grantReadData(synth);

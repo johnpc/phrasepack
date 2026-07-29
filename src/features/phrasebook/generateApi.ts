@@ -34,3 +34,12 @@ export async function regenerateLanguage(
 export async function getGenerationRun(runId: string): Promise<GenerationRunRecord | null> {
   return unwrap(await dataClient.models.GenerationRun.get({ id: runId }));
 }
+
+/** Synthesize one phrase's audio on demand; returns the S3 path (empty when the
+ * language has no supported voice). GUEST-callable — tap-to-hear needs no
+ * account. */
+export async function synthesizePhraseAudio(phraseId: string): Promise<string> {
+  const { data, errors } = await dataClient.mutations.synthesizePhraseAudio({ phraseId });
+  if (errors || !data) throw new Error(errors?.[0]?.message ?? 'Failed to generate audio.');
+  return data.path;
+}

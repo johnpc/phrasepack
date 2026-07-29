@@ -3,6 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import type { PhraseRecord } from '../../lib/dataClient';
 
 vi.mock('../../lib/useMediaUrl', () => ({ useMediaUrl: () => null }));
+vi.mock('./useSynthesizeAudio', () => ({
+  useSynthesizeAudio: () => ({ synthesize: vi.fn(), isSynthesizing: false }),
+}));
 
 import { ShowPhrase } from './ShowPhrase';
 

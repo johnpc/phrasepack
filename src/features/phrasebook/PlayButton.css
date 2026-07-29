@@ -24,17 +24,23 @@
   color: var(--pp-text-muted);
 }
 
-.pp-play--muted {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
+/* "Generate audio on demand" state — a phrase with no audio yet. Muted-toned so
+ * it reads as secondary to a ready play button, but clearly tappable (not the
+ * old dead icon). Tapping synthesizes + plays. */
+.pp-play--generate {
   color: var(--pp-text-muted);
-  opacity: 0.5;
 }
 
-.pp-play--muted ion-icon {
-  font-size: 1.5rem;
+.pp-play--generate ion-icon {
+  font-size: 1.6rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-play--generate:hover {
+    color: var(--pp-accent);
+  }
+}
+
+.pp-play--generate:disabled {
+  cursor: default;
 }

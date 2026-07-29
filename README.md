@@ -25,20 +25,20 @@
 
 ## Features
 
-| Feature                                           | Status |
-| ------------------------------------------------- | ------ |
-| Browse your language packs                        | ✅     |
-| Phrase list with correct spelling + phonetics     | ✅     |
-| Search a pack by English, translation, or sound   | ✅     |
-| Favorite phrases (pinned to the top, per device)  | ✅     |
-| Tap a phrase to show it full-screen to a local    | ✅     |
-| Share a pack with a travel companion              | ✅     |
-| Tap-to-play spoken audio per phrase               | ✅     |
-| Generate a pack for ANY language by name (in-app) | ✅     |
-| Refresh a pack to fill in newly-added key phrases | ✅     |
-| Works offline for packs you've already opened     | ✅     |
-| Light / dark / system theme                       | ✅     |
-| Install as a PWA / iOS / Android app              | ✅     |
+| Feature                                            | Status |
+| -------------------------------------------------- | ------ |
+| Browse your language packs                         | ✅     |
+| Phrase list with correct spelling + phonetics      | ✅     |
+| Search a pack by English, translation, or sound    | ✅     |
+| Favorite phrases (pinned to the top, per device)   | ✅     |
+| Tap a phrase to show it full-screen to a local     | ✅     |
+| Share a pack with a travel companion               | ✅     |
+| Tap-to-play audio (generated on demand if missing) | ✅     |
+| Generate a pack for ANY language by name (in-app)  | ✅     |
+| Refresh a pack to fill in newly-added key phrases  | ✅     |
+| Works offline for packs you've already opened      | ✅     |
+| Light / dark / system theme                        | ✅     |
+| Install as a PWA / iOS / Android app               | ✅     |
 
 ## How it works
 
