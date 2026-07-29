@@ -10,15 +10,26 @@ Given('a visitor has viewed the {string} pack while online', async ({ page }, na
   await expect(card).toBeVisible({ timeout: 15_000 });
   await card.click();
   await expect(page.getByTestId('phrase-sections')).toBeVisible({ timeout: 15_000 });
-  // Wait for the throttled persist to flush WHILE STILL ON THE PACK PAGE — a
-  // full navigation would abort the pending write, so the pack couldn't
-  // rehydrate offline (the CI failure mode). Only then return to home.
+  // Wait — WHILE STILL ON THE PACK PAGE (a full navigation aborts the pending
+  // throttled write) — for the persisted cache to hold the phrases query WITH
+  // ROWS. Checking only that the key exists isn't enough: pagination can persist
+  // an empty snapshot mid-load, which rehydrates offline as "No phrases yet"
+  // (the CI failure). Poll until a persisted phrases query has data.
   await expect
     .poll(
       () =>
-        page.evaluate(() =>
-          (window.localStorage.getItem('pp-query-cache') ?? '').includes('phrases'),
-        ),
+        page.evaluate(() => {
+          try {
+            const cache = JSON.parse(window.localStorage.getItem('pp-query-cache') ?? '{}');
+            const queries = cache?.clientState?.queries ?? [];
+            const phrases = queries.find(
+              (q: { queryKey: unknown[] }) => q.queryKey?.[0] === 'phrases',
+            );
+            return Array.isArray(phrases?.state?.data) && phrases.state.data.length > 0;
+          } catch {
+            return false;
+          }
+        }),
       { timeout: 20_000 },
     )
     .toBe(true);
