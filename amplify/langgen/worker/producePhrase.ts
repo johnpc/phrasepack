@@ -14,7 +14,8 @@ export interface ProducePhraseCtx {
   bucket: string;
   phraseTable: string;
   languageId: string;
-  voice: Voice;
+  /** null when the language has no supported Polly voice — audio is skipped. */
+  voice: Voice | null;
   now: string;
 }
 
@@ -33,6 +34,7 @@ async function makeAudio(
   phraseId: string,
   translation: string,
 ): Promise<string | undefined> {
+  if (!ctx.voice) return undefined; // no supported voice → text + phonetics only
   try {
     const bytes = await synthesizeSpeech(translation, ctx.voice);
     return await putMedia(

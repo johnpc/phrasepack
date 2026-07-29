@@ -21,3 +21,8 @@ Feature: Generate a language with AI
     Given a visitor opens the add-a-language screen with generation failing
     When they pick the "German" language
     Then a generation-failed message with a retry is shown
+
+  Scenario: Requesting any language by name starts generation
+    Given a visitor opens the add-a-language screen with generation stubbed
+    When they type "Swahili" and request generation
+    Then a generation-in-progress message is shown

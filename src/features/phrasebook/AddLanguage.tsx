@@ -9,22 +9,19 @@ import {
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { usePublishedLanguages } from './languagesApi';
-import { availableToGenerate, type CatalogLanguage } from './languageCatalog';
+import { type CatalogLanguage } from './languageCatalog';
 import { useGenerate } from './useGenerate';
 import { GenerateProgress } from './GenerateProgress';
-import { LoadState } from '../shell/LoadState';
+import { LanguagePicker } from './LanguagePicker';
 import './AddLanguage.css';
 
-/** Pick a language to generate a pack for (AI). Offers the catalog minus the
- * packs already generated; on completion routes to the fresh pack. Guest-first
- * — no account needed to generate. */
+/** Generate a pack for ANY language (AI): a free-text request or a popular
+ * catalog pick. On completion routes to the fresh pack. Guest-first — no
+ * account needed to generate. */
 export function AddLanguage() {
   const history = useHistory();
-  const existing = usePublishedLanguages();
   const { phase, languageId, generate } = useGenerate();
   const [picked, setPicked] = useState<CatalogLanguage | null>(null);
-  const choices = availableToGenerate((existing.data ?? []).map((l) => l.locale));
 
   const pick = (c: CatalogLanguage) => {
     setPicked(c);
@@ -48,36 +45,7 @@ export function AddLanguage() {
       <IonContent className="ion-padding">
         <div className="pp-container pp-container--wide">
           {phase === 'idle' ? (
-            <LoadState
-              isLoading={existing.isLoading}
-              isError={existing.isError}
-              isEmpty={choices.length === 0}
-              onRetry={() => void existing.refetch()}
-              emptyTitle="All caught up"
-              emptyMessage="You’ve generated every language in the catalog."
-            >
-              <p className="pp-add-intro pp-muted">
-                Pick a language and we’ll generate a travel phrasebook for it — spelling, phonetics,
-                and spoken audio for every key phrase.
-              </p>
-              <div className="pp-add-grid" data-testid="catalog-list">
-                {choices.map((c) => (
-                  <button
-                    key={c.locale}
-                    className="pp-add-choice"
-                    data-testid="catalog-choice"
-                    data-locale={c.locale}
-                    onClick={() => pick(c)}
-                  >
-                    <span className="pp-add-choice__flag" aria-hidden="true">
-                      {c.flagEmoji}
-                    </span>
-                    <span className="pp-add-choice__name pp-heading">{c.name}</span>
-                    <span className="pp-add-choice__native pp-muted">{c.nativeName}</span>
-                  </button>
-                ))}
-              </div>
-            </LoadState>
+            <LanguagePicker onGenerate={pick} />
           ) : (
             <GenerateProgress
               phase={phase}

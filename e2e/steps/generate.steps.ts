@@ -66,6 +66,11 @@ When('they pick the {string} language', async ({ page }, name: string) => {
   await page.getByTestId('catalog-choice').filter({ hasText: name }).click();
 });
 
+When('they type {string} and request generation', async ({ page }, name: string) => {
+  await page.getByTestId('custom-language-input').fill(name);
+  await page.getByTestId('custom-language-generate').click();
+});
+
 Then('a generation-in-progress message is shown', async ({ page }) => {
   await expect(page.getByTestId('generate-progress')).toBeVisible({ timeout: 15_000 });
 });
