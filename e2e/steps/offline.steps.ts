@@ -10,11 +10,9 @@ Given('a visitor has viewed the {string} pack while online', async ({ page }, na
   await expect(card).toBeVisible({ timeout: 15_000 });
   await card.click();
   await expect(page.getByTestId('phrase-sections')).toBeVisible({ timeout: 15_000 });
-  await page.goto('/home');
-  await expect(card).toBeVisible({ timeout: 15_000 });
-  // The persister throttles writes to localStorage — wait until the pack's
-  // phrase query is actually persisted, so it can rehydrate once offline.
-  // (Without this the fast CI runner drops the connection before the write.)
+  // Wait for the throttled persist to flush WHILE STILL ON THE PACK PAGE — a
+  // full navigation would abort the pending write, so the pack couldn't
+  // rehydrate offline (the CI failure mode). Only then return to home.
   await expect
     .poll(
       () =>
@@ -24,6 +22,8 @@ Given('a visitor has viewed the {string} pack while online', async ({ page }, na
       { timeout: 20_000 },
     )
     .toBe(true);
+  await page.goto('/home');
+  await expect(card).toBeVisible({ timeout: 15_000 });
 });
 
 When('their connection drops and they reopen the pack', async ({ page, context }) => {
