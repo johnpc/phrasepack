@@ -32,6 +32,7 @@
 | Search a pack by English, translation, or sound   | ✅     |
 | Favorite phrases (pinned to the top, per device)  | ✅     |
 | Tap a phrase to show it full-screen to a local    | ✅     |
+| Share a pack with a travel companion              | ✅     |
 | Tap-to-play spoken audio per phrase               | ✅     |
 | Generate a pack for any language with AI (in-app) | ✅     |
 | Refresh a pack to fill in newly-added key phrases | ✅     |

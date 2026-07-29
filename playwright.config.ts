@@ -53,6 +53,9 @@ export default defineConfig({
     trace: 'on-first-retry',
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
+    // Grant clipboard write so the "share → copy link" fallback works headless
+    // (Chromium blocks clipboard by default). Harmless for other specs.
+    permissions: ['clipboard-write'],
     // SLOWMO=<ms> launches a visible browser that pauses between actions so a
     // human can watch the Gherkin run, e.g. `SLOWMO=600 npm run test:e2e`.
     launchOptions: { slowMo: Number(process.env.SLOWMO) || 0 },

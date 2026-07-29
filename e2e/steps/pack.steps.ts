@@ -99,3 +99,29 @@ Then('the phrase is shown full-screen in large type', async ({ page }) => {
   await expect(page.getByTestId('show-phrase')).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId('show-close')).toBeVisible();
 });
+
+Given(
+  'a visitor opens the {string} pack on a device without native share',
+  async ({ page }, name: string) => {
+    // Remove navigator.share before the app loads so the share button takes the
+    // clipboard-copy fallback (a native sheet can't be driven by Playwright).
+    await page.addInitScript(() => {
+      try {
+        delete (navigator as { share?: unknown }).share;
+      } catch {
+        /* some engines make it non-configurable — fallback still triggers */
+      }
+    });
+    await openPack(page, name);
+  },
+);
+
+When('they share the pack', async ({ page }) => {
+  await page.getByTestId('share-pack').click();
+});
+
+Then('the pack link is copied and a confirmation is shown', async ({ page }) => {
+  const toast = page.getByTestId('app-toast');
+  await expect(toast).toBeVisible({ timeout: 15_000 });
+  await expect(toast).toContainText('copied');
+});

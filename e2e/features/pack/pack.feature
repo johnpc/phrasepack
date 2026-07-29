@@ -39,3 +39,8 @@ Feature: View a language pack
     Given a visitor opens the "Spanish (Spain)" pack
     When they tap the "La cuenta, por favor" phrase to show it
     Then the phrase is shown full-screen in large type
+
+  Scenario: Sharing a pack copies its link when there's no native share sheet
+    Given a visitor opens the "Spanish (Spain)" pack on a device without native share
+    When they share the pack
+    Then the pack link is copied and a confirmation is shown

@@ -1,0 +1,22 @@
+.pp-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: none;
+  color: var(--pp-text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.pp-share ion-icon {
+  font-size: 1.4rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-share:hover {
+    color: var(--pp-accent-strong);
+  }
+}
