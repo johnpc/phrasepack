@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { IonIcon, IonSpinner } from '@ionic/react';
-import { playCircle, pauseCircle, volumeHighOutline } from 'ionicons/icons';
+import { playCircle, pauseCircle, volumeHighOutline, volumeMuteOutline } from 'ionicons/icons';
 import { useMediaUrl } from '../../lib/useMediaUrl';
 import { useAudioPlayer } from './useAudioPlayer';
 import { useSynthesizeAudio } from './useSynthesizeAudio';
+import { showToast } from '../shell/toastBus';
 import './PlayButton.css';
 
 interface Props {
@@ -21,9 +22,21 @@ export function PlayButton({ phraseId, languageId, audioPath, label }: Props) {
   const { synthesize, isSynthesizing } = useSynthesizeAudio(languageId);
   const [freshPath, setFreshPath] = useState<string | null>(null);
   const [autoPlay, setAutoPlay] = useState(false);
+  const [noVoice, setNoVoice] = useState(false);
   const path = audioPath ?? freshPath;
   const url = useMediaUrl(path);
   const { state, toggle } = useAudioPlayer(url, undefined, autoPlay);
+
+  // The language has no Amazon Polly voice (e.g. Greek) — synthesis returned an
+  // empty path. Show a clear muted state so the button doesn't look broken.
+  if (noVoice) {
+    return (
+      <span className="pp-play pp-play--muted" title="Audio isn’t available for this language">
+        <IonIcon icon={volumeMuteOutline} aria-hidden="true" />
+        <span className="pp-sr-only">Audio isn’t available for this language</span>
+      </span>
+    );
+  }
 
   // No audio yet → a "generate & play" button (not a dead muted icon).
   if (!path) {
@@ -38,6 +51,10 @@ export function PlayButton({ phraseId, languageId, audioPath, label }: Props) {
           if (p) {
             setAutoPlay(true);
             setFreshPath(p);
+          } else {
+            // Empty path = no voice for this language; make that visible.
+            setNoVoice(true);
+            showToast('Audio isn’t available for this language yet.');
           }
         }}
       >
