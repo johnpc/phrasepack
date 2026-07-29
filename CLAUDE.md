@@ -206,3 +206,7 @@ Significant, hard-to-reverse choices (read before re-opening a settled question)
 - **Favorites are per-device (localStorage), keyed by phraseKeySlug.** No account (guest-first), and
   keying by slug (not row id) means a pack regeneration keeps your stars. See
   `favoritesStore.ts` + `useFavorites.ts`.
+- **Offline-first for travelers.** The query cache is persisted to localStorage
+  (`PersistQueryClientProvider`) with `networkMode: 'offlineFirst'`, so packs opened while online
+  rehydrate + render with no connection; media-url queries are excluded (presigned URLs expire). An
+  `OfflineBanner` sets expectations that generating a new language needs data.

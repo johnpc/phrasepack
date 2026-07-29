@@ -1,9 +1,10 @@
 import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './lib/queryClient';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { queryClient, persistOptions } from './lib/queryClient';
 import { ThemeProvider } from './features/settings/ThemeProvider';
 import { ErrorBoundary } from './features/shell/ErrorBoundary';
+import { OfflineBanner } from './features/shell/OfflineBanner';
 import { Toast } from './features/shell/Toast';
 import { AppRoutes } from './AppRoutes';
 
@@ -25,16 +26,17 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
       <ThemeProvider>
         <IonReactRouter>
+          <OfflineBanner />
           <ErrorBoundary>
             <AppRoutes />
           </ErrorBoundary>
           <Toast />
         </IonReactRouter>
       </ThemeProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   </IonApp>
 );
 

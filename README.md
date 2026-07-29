@@ -35,6 +35,7 @@
 | Tap-to-play spoken audio per phrase               | ✅     |
 | Generate a pack for any language with AI (in-app) | ✅     |
 | Refresh a pack to fill in newly-added key phrases | ✅     |
+| Works offline for packs you've already opened     | ✅     |
 | Light / dark / system theme                       | ✅     |
 | Install as a PWA / iOS / Android app              | ✅     |
 
