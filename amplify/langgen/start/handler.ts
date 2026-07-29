@@ -25,16 +25,21 @@ const env = (name: string): string => {
   return v;
 };
 
-async function resolveFromEvent(fieldName: string, args: Record<string, unknown>): Promise<Target> {
+async function resolveFromEvent(args: Record<string, unknown>): Promise<Target> {
   const deps = { getLanguage: (id: string) => getItem(env('LANGUAGE_TABLE'), id) };
-  if (fieldName === 'regenerateLanguage') {
-    return resolveRegenerate(deps, String(args.languageId));
+  // Branch on the ARGUMENTS, not event.info.fieldName (which isn't reliably the
+  // mutation name for this Lambda data source). regenerateLanguage has only a
+  // languageId; generateLanguage has locale/name. This is unambiguous — and it
+  // was the bug: a regenerate call fell through to generate and crashed reading
+  // an undefined locale.
+  if (args.locale === undefined && typeof args.languageId === 'string') {
+    return resolveRegenerate(deps, args.languageId);
   }
   return resolveGenerate(deps, args as unknown as GenerateArgs);
 }
 
-async function run(fieldName: string, args: Record<string, unknown>) {
-  const target = await resolveFromEvent(fieldName, args);
+async function run(args: Record<string, unknown>) {
+  const target = await resolveFromEvent(args);
   const runId = randomUUID();
   const now = new Date().toISOString();
 
@@ -75,7 +80,5 @@ async function run(fieldName: string, args: Record<string, unknown>) {
 }
 
 export const handler: Schema['generateLanguage']['functionHandler'] = async (event) => {
-  const fieldName =
-    (event as { info?: { fieldName?: string } }).info?.fieldName ?? 'generateLanguage';
-  return run(fieldName, event.arguments as Record<string, unknown>);
+  return run(event.arguments as Record<string, unknown>);
 };

@@ -34,8 +34,11 @@ const existingTarget: Target = {
   isNew: false,
 };
 
-const makeEvent = (fieldName: string, args: Record<string, unknown>) =>
-  ({ info: { fieldName }, arguments: args }) as unknown as Parameters<typeof handler>[0];
+// The handler routes on the ARGUMENTS shape, not info.fieldName (the source of
+// a real bug — a regenerate call with only languageId was mis-routed to
+// generate and crashed reading an undefined locale). Events carry only args.
+const makeEvent = (args: Record<string, unknown>) =>
+  ({ arguments: args }) as unknown as Parameters<typeof handler>[0];
 
 describe('langgen starter handler', () => {
   beforeEach(() => {
@@ -49,9 +52,9 @@ describe('langgen starter handler', () => {
     e.resolveRegenerate.mockResolvedValue(existingTarget);
   });
 
-  it('generateLanguage NEW target writes a DRAFT Language + RUNNING run and invokes the worker', async () => {
+  it('routes an args-with-locale call to generate: writes a DRAFT Language + RUNNING run and invokes the worker', async () => {
     const out = await handler(
-      makeEvent('generateLanguage', { locale: 'es-ES', name: 'Spanish (Spain)' }),
+      makeEvent({ locale: 'es-ES', name: 'Spanish (Spain)' }),
       {} as never,
       {} as never,
     );
@@ -77,13 +80,10 @@ describe('langgen starter handler', () => {
     );
   });
 
-  it('regenerateLanguage does NOT write a Language row but writes the run + invokes the worker', async () => {
-    const out = await handler(
-      makeEvent('regenerateLanguage', { languageId: 'lang-fr-fr' }),
-      {} as never,
-      {} as never,
-    );
+  it('routes an args-with-only-languageId call to regenerate: no Language row, writes run + invokes worker', async () => {
+    const out = await handler(makeEvent({ languageId: 'lang-fr-fr' }), {} as never, {} as never);
     expect(e.resolveRegenerate).toHaveBeenCalledWith(expect.anything(), 'lang-fr-fr');
+    expect(e.resolveGenerate).not.toHaveBeenCalled();
     expect(e.putItem.mock.calls.some((c) => c[0] === 'languages')).toBe(false);
     const runItem = e.putItem.mock.calls.find((c) => c[0] === 'runs')?.[1];
     expect(runItem).toMatchObject({ status: 'RUNNING', kind: 'REGENERATE' });
@@ -94,25 +94,10 @@ describe('langgen starter handler', () => {
     );
   });
 
-  it('defaults to generateLanguage when info.fieldName is absent', async () => {
-    await handler(
-      { arguments: { locale: 'es-ES', name: 'Spanish' } } as unknown as Parameters<
-        typeof handler
-      >[0],
-      {} as never,
-      {} as never,
-    );
-    expect(e.resolveGenerate).toHaveBeenCalled();
-  });
-
   it('throws when a required env var is missing', async () => {
     delete process.env.LANGUAGE_TABLE;
     await expect(
-      handler(
-        makeEvent('generateLanguage', { locale: 'es-ES', name: 'Spanish' }),
-        {} as never,
-        {} as never,
-      ),
+      handler(makeEvent({ locale: 'es-ES', name: 'Spanish' }), {} as never, {} as never),
     ).rejects.toThrow(/LANGUAGE_TABLE not set/);
   });
 });
