@@ -12,6 +12,15 @@ Given('a visitor has viewed the {string} pack while online', async ({ page }, na
   await expect(page.getByTestId('phrase-sections')).toBeVisible({ timeout: 15_000 });
   await page.goto('/home');
   await expect(card).toBeVisible({ timeout: 15_000 });
+  // The persister throttles writes to localStorage — wait until the pack's
+  // phrase query is actually persisted, so it can rehydrate once offline.
+  // (Without this the fast CI runner drops the connection before the write.)
+  await expect
+    .poll(
+      () => page.evaluate(() => window.localStorage.getItem('pp-query-cache')?.includes('phrases')),
+      { timeout: 15_000 },
+    )
+    .toBe(true);
 });
 
 When('their connection drops and they reopen the pack', async ({ page, context }) => {
