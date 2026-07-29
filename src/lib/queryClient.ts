@@ -34,7 +34,14 @@ export const queryClient = new QueryClient({
  * so a stale one is worse than re-minting; everything else (language + phrase
  * lists) is safe to rehydrate. */
 export const persistOptions: Omit<PersistQueryClientOptions, 'queryClient'> = {
-  persister: createSyncStoragePersister({ storage: window.localStorage, key: 'pp-query-cache' }),
+  // throttleTime 200ms (default 1000): flush cache writes promptly so a pack
+  // just viewed is persisted before a connection drop — the offline read
+  // depends on it, and 1s raced the network on fast runners.
+  persister: createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'pp-query-cache',
+    throttleTime: 200,
+  }),
   maxAge: ONE_WEEK_MS,
   dehydrateOptions: {
     shouldDehydrateQuery: (query) => query.queryKey[0] !== 'media-url',

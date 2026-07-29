@@ -17,8 +17,11 @@ Given('a visitor has viewed the {string} pack while online', async ({ page }, na
   // (Without this the fast CI runner drops the connection before the write.)
   await expect
     .poll(
-      () => page.evaluate(() => window.localStorage.getItem('pp-query-cache')?.includes('phrases')),
-      { timeout: 15_000 },
+      () =>
+        page.evaluate(() =>
+          (window.localStorage.getItem('pp-query-cache') ?? '').includes('phrases'),
+        ),
+      { timeout: 20_000 },
     )
     .toBe(true);
 });
