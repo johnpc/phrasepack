@@ -1,9 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const m = vi.hoisted(() => ({ generate: vi.fn(), regenerate: vi.fn(), get: vi.fn() }));
+const m = vi.hoisted(() => ({
+  generate: vi.fn(),
+  regenerate: vi.fn(),
+  get: vi.fn(),
+  synth: vi.fn(),
+}));
 vi.mock('../../lib/dataClient', () => ({
   dataClient: {
-    mutations: { generateLanguage: m.generate, regenerateLanguage: m.regenerate },
+    mutations: {
+      generateLanguage: m.generate,
+      regenerateLanguage: m.regenerate,
+      synthesizePhraseAudio: m.synth,
+    },
     models: { GenerationRun: { get: m.get } },
   },
   unwrap: (r: { data: unknown; errors?: { message: string }[] }) => {
@@ -12,7 +21,12 @@ vi.mock('../../lib/dataClient', () => ({
   },
 }));
 
-import { generateLanguage, regenerateLanguage, getGenerationRun } from './generateApi';
+import {
+  generateLanguage,
+  regenerateLanguage,
+  getGenerationRun,
+  synthesizePhraseAudio,
+} from './generateApi';
 
 describe('generateApi', () => {
   beforeEach(() => {
@@ -60,5 +74,16 @@ describe('generateApi', () => {
   it('getGenerationRun throws on GraphQL errors', async () => {
     m.get.mockResolvedValue({ data: null, errors: [{ message: 'nope' }] });
     await expect(getGenerationRun('r1')).rejects.toThrow('nope');
+  });
+
+  it('synthesizePhraseAudio returns the audio path', async () => {
+    m.synth.mockResolvedValue({ data: { path: 'media/phrases/l1/p1.mp3' }, errors: null });
+    expect(await synthesizePhraseAudio('p1')).toBe('media/phrases/l1/p1.mp3');
+    expect(m.synth).toHaveBeenCalledWith({ phraseId: 'p1' });
+  });
+
+  it('synthesizePhraseAudio throws on error', async () => {
+    m.synth.mockResolvedValue({ data: null, errors: [{ message: 'polly down' }] });
+    await expect(synthesizePhraseAudio('p1')).rejects.toThrow('polly down');
   });
 });

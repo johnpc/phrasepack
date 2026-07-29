@@ -3,6 +3,11 @@ import { describe, it, expect, vi } from 'vitest';
 import type { PhraseRecord } from '../../lib/dataClient';
 
 vi.mock('../../lib/useMediaUrl', () => ({ useMediaUrl: () => null }));
+// PlayButton (rendered inside a row) uses react-query via useSynthesizeAudio;
+// mock it so the row test doesn't need a QueryClientProvider.
+vi.mock('./useSynthesizeAudio', () => ({
+  useSynthesizeAudio: () => ({ synthesize: vi.fn(), isSynthesizing: false }),
+}));
 
 import { PhraseRow } from './PhraseRow';
 

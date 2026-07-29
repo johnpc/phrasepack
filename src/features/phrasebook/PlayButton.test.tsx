@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const media = vi.hoisted(() => ({ url: null as string | null }));
@@ -9,25 +9,37 @@ const player = vi.hoisted(() => ({
 }));
 vi.mock('./useAudioPlayer', () => ({ useAudioPlayer: () => player.value }));
 
+const synth = vi.hoisted(() => ({ synthesize: vi.fn(), isSynthesizing: false }));
+vi.mock('./useSynthesizeAudio', () => ({ useSynthesizeAudio: () => synth }));
+
 import { PlayButton } from './PlayButton';
+
+const props = { phraseId: 'p1', languageId: 'lang-es-es', label: 'Hello' };
 
 describe('PlayButton', () => {
   beforeEach(() => {
     media.url = null;
     player.value = { state: 'idle', toggle: vi.fn(), canPlay: true };
+    synth.synthesize = vi.fn().mockResolvedValue('media/phrases/lang-es-es/p1.mp3');
+    synth.isSynthesizing = false;
   });
 
-  it('renders a muted state when there is no audioPath', () => {
-    render(<PlayButton audioPath={null} label="Hello" />);
-    // Conveyed by visually-hidden text (not aria-label, which is prohibited on
-    // a non-interactive span — see the a11y fix).
-    expect(screen.getByText('No audio available')).toBeInTheDocument();
+  it('offers a generate-audio button (not a dead icon) when there is no audioPath', () => {
+    render(<PlayButton {...props} audioPath={null} />);
+    const btn = screen.getByTestId('phrase-generate-audio');
+    expect(btn).toHaveAttribute('aria-label', expect.stringContaining('Generate'));
     expect(screen.queryByTestId('phrase-play')).not.toBeInTheDocument();
+  });
+
+  it('synthesizes on demand when the generate button is tapped', async () => {
+    render(<PlayButton {...props} audioPath={null} />);
+    screen.getByTestId('phrase-generate-audio').click();
+    await waitFor(() => expect(synth.synthesize).toHaveBeenCalledWith('p1'));
   });
 
   it('renders a play button and toggles on click when audioPath is present', () => {
     media.url = 'https://s3/audio.mp3';
-    render(<PlayButton audioPath="media/phrases/x.mp3" label="Hello" />);
+    render(<PlayButton {...props} audioPath="media/phrases/x.mp3" />);
     const btn = screen.getByTestId('phrase-play');
     expect(btn).toHaveAttribute('aria-label', 'Play Hello');
     expect(btn).toHaveAttribute('aria-pressed', 'false');
@@ -38,7 +50,7 @@ describe('PlayButton', () => {
   it('reflects the playing state in aria-pressed and label', () => {
     media.url = 'https://s3/audio.mp3';
     player.value = { state: 'playing', toggle: vi.fn(), canPlay: true };
-    render(<PlayButton audioPath="media/phrases/x.mp3" label="Hello" />);
+    render(<PlayButton {...props} audioPath="media/phrases/x.mp3" />);
     const btn = screen.getByTestId('phrase-play');
     expect(btn).toHaveAttribute('aria-pressed', 'true');
     expect(btn).toHaveAttribute('aria-label', 'Stop Hello');

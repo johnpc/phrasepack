@@ -51,7 +51,12 @@ export function ShowPhrase({ phrase, onClose }: { phrase: PhraseRecord; onClose:
         </p>
         {phrase.phonetic && <p className="pp-show__phonetic">{phrase.phonetic}</p>}
         <p className="pp-show__source pp-muted">{phrase.sourceText}</p>
-        <PlayButton audioPath={phrase.audioPath} label={phrase.sourceText} />
+        <PlayButton
+          phraseId={phrase.id}
+          languageId={phrase.languageId}
+          audioPath={phrase.audioPath}
+          label={phrase.sourceText}
+        />
       </div>
     </div>,
     document.body,

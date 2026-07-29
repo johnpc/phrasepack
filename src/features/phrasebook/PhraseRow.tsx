@@ -57,7 +57,12 @@ export function PhraseRow({
           </span>
         )}
       </div>
-      <PlayButton audioPath={phrase.audioPath} label={phrase.sourceText} />
+      <PlayButton
+        phraseId={phrase.id}
+        languageId={phrase.languageId}
+        audioPath={phrase.audioPath}
+        label={phrase.sourceText}
+      />
     </li>
   );
 }

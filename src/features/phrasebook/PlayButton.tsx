@@ -1,25 +1,52 @@
-import { IonIcon } from '@ionic/react';
-import { playCircle, pauseCircle, volumeMuteOutline } from 'ionicons/icons';
+import { useState } from 'react';
+import { IonIcon, IonSpinner } from '@ionic/react';
+import { playCircle, pauseCircle, volumeHighOutline } from 'ionicons/icons';
 import { useMediaUrl } from '../../lib/useMediaUrl';
 import { useAudioPlayer } from './useAudioPlayer';
+import { useSynthesizeAudio } from './useSynthesizeAudio';
 import './PlayButton.css';
 
-/** The per-phrase "play" button. Resolves the phrase's S3 audio key to a
- * presigned URL, then plays it through the shared audio hook. When a phrase has
- * no audio (synthesis failed at generation), it renders a muted, disabled state
- * rather than a broken control. */
-export function PlayButton({ audioPath, label }: { audioPath?: string | null; label: string }) {
-  const url = useMediaUrl(audioPath);
-  const { state, toggle, canPlay } = useAudioPlayer(url);
+interface Props {
+  phraseId: string;
+  languageId: string;
+  audioPath?: string | null;
+  label: string;
+}
 
-  if (!audioPath) {
-    // Non-interactive, so no aria-label (prohibited on a span with no role);
-    // the meaning is conveyed by visually-hidden text + a hover title.
+/** The per-phrase audio control. If the phrase already has audio, it plays it.
+ * If it doesn't (a seeded pack, or a voice added later), it shows a "generate"
+ * button that synthesizes the audio on demand (Polly), then plays it — cached
+ * from then on. */
+export function PlayButton({ phraseId, languageId, audioPath, label }: Props) {
+  const { synthesize, isSynthesizing } = useSynthesizeAudio(languageId);
+  const [freshPath, setFreshPath] = useState<string | null>(null);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const path = audioPath ?? freshPath;
+  const url = useMediaUrl(path);
+  const { state, toggle } = useAudioPlayer(url, undefined, autoPlay);
+
+  // No audio yet → a "generate & play" button (not a dead muted icon).
+  if (!path) {
     return (
-      <span className="pp-play pp-play--muted" title="No audio">
-        <IonIcon icon={volumeMuteOutline} aria-hidden="true" />
-        <span className="pp-sr-only">No audio available</span>
-      </span>
+      <button
+        className="pp-play pp-play--generate"
+        data-testid="phrase-generate-audio"
+        aria-label={`Generate and play audio for ${label}`}
+        disabled={isSynthesizing}
+        onClick={async () => {
+          const p = await synthesize(phraseId);
+          if (p) {
+            setAutoPlay(true);
+            setFreshPath(p);
+          }
+        }}
+      >
+        {isSynthesizing ? (
+          <IonSpinner name="crescent" aria-hidden="true" />
+        ) : (
+          <IonIcon icon={volumeHighOutline} aria-hidden="true" />
+        )}
+      </button>
     );
   }
 
@@ -31,7 +58,6 @@ export function PlayButton({ audioPath, label }: { audioPath?: string | null; la
       data-state={state}
       aria-label={playing ? `Stop ${label}` : `Play ${label}`}
       aria-pressed={playing}
-      disabled={!canPlay && state !== 'error'}
       onClick={toggle}
     >
       <IonIcon icon={playing ? pauseCircle : playCircle} aria-hidden="true" />

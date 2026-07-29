@@ -4,6 +4,11 @@ import type { LanguageRecord, PhraseRecord } from '../../lib/dataClient';
 
 vi.mock('react-router-dom', () => ({ useParams: () => ({ id: 'l1' }) }));
 vi.mock('../../lib/useMediaUrl', () => ({ useMediaUrl: () => null }));
+// PlayButton (deep in the rendered list) uses react-query via useSynthesizeAudio;
+// mock it so this component test needs no QueryClientProvider.
+vi.mock('./useSynthesizeAudio', () => ({
+  useSynthesizeAudio: () => ({ synthesize: vi.fn(), isSynthesizing: false }),
+}));
 vi.mock('./RefreshBanner', () => ({ RefreshBanner: () => <div data-testid="refresh" /> }));
 
 const lang = vi.hoisted(() => ({
