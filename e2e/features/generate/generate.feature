@@ -26,3 +26,8 @@ Feature: Generate a language with AI
     Given a visitor opens the add-a-language screen with generation stubbed
     When they type "Swahili" and request generation
     Then a generation-in-progress message is shown
+
+  Scenario: Browsing by destination offers countries mapped to their language
+    Given a visitor opens the add-a-language screen
+    When they switch to browse by destination
+    Then a destination "Japan" is offered
