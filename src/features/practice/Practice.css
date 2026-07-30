@@ -1,0 +1,89 @@
+.pp-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--pp-skeleton-base);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.pp-progress__bar {
+  height: 100%;
+  background: var(--pp-accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.pp-progress__label {
+  font-size: 0.82rem;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.pp-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  padding: 32px 20px;
+  border: 1px solid var(--pp-border);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface);
+  box-shadow: var(--pp-shadow);
+  min-height: 40vh;
+  justify-content: center;
+}
+
+.pp-card__prompt {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.pp-card__english {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.pp-card__reveal {
+  margin-top: 10px;
+}
+
+.pp-card__answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.pp-card__translation {
+  font-size: 2rem;
+  color: var(--pp-text);
+  margin: 0;
+}
+
+.pp-card__phonetic {
+  font-size: 1.05rem;
+  color: var(--pp-teal-strong);
+  margin: 0;
+}
+
+.pp-card__grades {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pp-practice-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  min-height: 50vh;
+  justify-content: center;
+}
+
+.pp-practice-done__emoji {
+  font-size: 3rem;
+}

@@ -10,3 +10,8 @@
   margin: 0;
   padding: 0;
 }
+
+/* Practice call-to-action above the phrase list. */
+.pp-practice-cta {
+  margin-bottom: 16px;
+}

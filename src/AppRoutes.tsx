@@ -13,6 +13,9 @@ import { LazyRoute } from './features/shell/LazyRoute';
 const AddLanguage = lazy(() =>
   import('./features/phrasebook/AddLanguage').then((m) => ({ default: m.AddLanguage })),
 );
+const Practice = lazy(() =>
+  import('./features/practice/Practice').then((m) => ({ default: m.Practice })),
+);
 const Settings = lazy(() =>
   import('./features/settings/Settings').then((m) => ({ default: m.Settings })),
 );
@@ -37,6 +40,11 @@ export function AppRoutes() {
       </Route>
       <Route exact path="/pack/:id">
         <PackDetail />
+      </Route>
+      <Route exact path="/pack/:id/practice">
+        <LazyRoute>
+          <Practice />
+        </LazyRoute>
       </Route>
       <Route exact path="/settings">
         <LazyRoute>

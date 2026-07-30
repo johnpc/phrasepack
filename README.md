@@ -30,13 +30,17 @@
 | Browse your language packs                         | ✅     |
 | Phrase list with correct spelling + phonetics      | ✅     |
 | Search a pack by English, translation, or sound    | ✅     |
+| Filter a pack by category (chips)                  | ✅     |
 | Favorite phrases (pinned to the top, per device)   | ✅     |
 | Tap a phrase to show it full-screen to a local     | ✅     |
+| Practice mode — flashcard drill with self-grading  | ✅     |
 | Share a pack with a travel companion               | ✅     |
 | Tap-to-play audio (generated on demand if missing) | ✅     |
+| Slow (½×) playback to learn pronunciation          | ✅     |
 | Generate a pack for ANY language by name (in-app)  | ✅     |
+| Add by destination (Going to Japan? → Japanese)    | ✅     |
 | Refresh a pack to fill in newly-added key phrases  | ✅     |
-| Works offline for packs you've already opened      | ✅     |
+| Works offline — text, phonetics, AND audio         | ✅     |
 | Light / dark / system theme                        | ✅     |
 | Install as a PWA / iOS / Android app               | ✅     |
 
