@@ -5,7 +5,7 @@ const media = vi.hoisted(() => ({ url: null as string | null }));
 vi.mock('../../lib/useMediaUrl', () => ({ useMediaUrl: () => media.url }));
 
 const player = vi.hoisted(() => ({
-  value: { state: 'idle' as string, toggle: vi.fn(), canPlay: true },
+  value: { state: 'idle' as string, toggle: vi.fn(), playSlow: vi.fn(), canPlay: true },
 }));
 vi.mock('./useAudioPlayer', () => ({ useAudioPlayer: () => player.value }));
 
@@ -21,7 +21,7 @@ const props = { phraseId: 'p1', languageId: 'lang-es-es', label: 'Hello' };
 describe('PlayButton', () => {
   beforeEach(() => {
     media.url = null;
-    player.value = { state: 'idle', toggle: vi.fn(), canPlay: true };
+    player.value = { state: 'idle', toggle: vi.fn(), playSlow: vi.fn(), canPlay: true };
     synth.synthesize = vi.fn().mockResolvedValue('media/phrases/lang-es-es/p1.mp3');
     synth.isSynthesizing = false;
   });
@@ -60,9 +60,18 @@ describe('PlayButton', () => {
     expect(player.value.toggle).toHaveBeenCalledTimes(1);
   });
 
+  it('offers a slow-playback button that calls playSlow', () => {
+    media.url = 'https://s3/audio.mp3';
+    render(<PlayButton {...props} audioPath="media/phrases/x.mp3" />);
+    const slow = screen.getByTestId('phrase-play-slow');
+    expect(slow).toHaveAttribute('aria-label', 'Play Hello slowly');
+    slow.click();
+    expect(player.value.playSlow).toHaveBeenCalledTimes(1);
+  });
+
   it('reflects the playing state in aria-pressed and label', () => {
     media.url = 'https://s3/audio.mp3';
-    player.value = { state: 'playing', toggle: vi.fn(), canPlay: true };
+    player.value = { state: 'playing', toggle: vi.fn(), playSlow: vi.fn(), canPlay: true };
     render(<PlayButton {...props} audioPath="media/phrases/x.mp3" />);
     const btn = screen.getByTestId('phrase-play');
     expect(btn).toHaveAttribute('aria-pressed', 'true');
