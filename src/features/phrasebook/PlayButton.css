@@ -1,3 +1,10 @@
+/* Play + slow buttons sit together at the row's trailing edge. */
+.pp-play-group {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
 .pp-play {
   display: inline-flex;
   align-items: center;
@@ -10,6 +17,31 @@
   color: var(--pp-accent);
   cursor: pointer;
   padding: 0;
+}
+
+/* Slow-playback: a compact "½×" pill next to play, for hearing a phrase drawn
+ * out to practice saying it. */
+.pp-play-slow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid var(--pp-border);
+  border-radius: 999px;
+  background: var(--pp-surface);
+  color: var(--pp-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-play-slow:hover {
+    color: var(--pp-teal);
+    border-color: var(--pp-teal);
+  }
 }
 
 .pp-play ion-icon {

@@ -25,7 +25,7 @@ export function PlayButton({ phraseId, languageId, audioPath, label }: Props) {
   const [noVoice, setNoVoice] = useState(false);
   const path = audioPath ?? freshPath;
   const url = useMediaUrl(path);
-  const { state, toggle } = useAudioPlayer(url, undefined, autoPlay);
+  const { state, toggle, playSlow } = useAudioPlayer(url, undefined, autoPlay);
 
   // The language has no Amazon Polly voice (e.g. Greek) — synthesis returned an
   // empty path. Show a clear muted state so the button doesn't look broken.
@@ -69,15 +69,25 @@ export function PlayButton({ phraseId, languageId, audioPath, label }: Props) {
 
   const playing = state === 'playing';
   return (
-    <button
-      className="pp-play"
-      data-testid="phrase-play"
-      data-state={state}
-      aria-label={playing ? `Stop ${label}` : `Play ${label}`}
-      aria-pressed={playing}
-      onClick={toggle}
-    >
-      <IonIcon icon={playing ? pauseCircle : playCircle} aria-hidden="true" />
-    </button>
+    <span className="pp-play-group">
+      <button
+        className="pp-play"
+        data-testid="phrase-play"
+        data-state={state}
+        aria-label={playing ? `Stop ${label}` : `Play ${label}`}
+        aria-pressed={playing}
+        onClick={toggle}
+      >
+        <IonIcon icon={playing ? pauseCircle : playCircle} aria-hidden="true" />
+      </button>
+      <button
+        className="pp-play-slow"
+        data-testid="phrase-play-slow"
+        aria-label={`Play ${label} slowly`}
+        onClick={playSlow}
+      >
+        ½×
+      </button>
+    </span>
   );
 }

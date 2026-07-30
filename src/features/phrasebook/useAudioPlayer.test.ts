@@ -5,12 +5,13 @@ import { useAudioPlayer } from './useAudioPlayer';
 interface FakeAudio {
   play: ReturnType<typeof vi.fn>;
   pause: ReturnType<typeof vi.fn>;
+  playbackRate: number;
   onended: (() => void) | null;
   onerror: (() => void) | null;
 }
 
 function fakeAudio(play: () => Promise<void> = () => Promise.resolve()): FakeAudio {
-  return { play: vi.fn(play), pause: vi.fn(), onended: null, onerror: null };
+  return { play: vi.fn(play), pause: vi.fn(), playbackRate: 1, onended: null, onerror: null };
 }
 
 /** Cast a FakeAudio to the HTMLAudioElement the factory must return. */
@@ -38,6 +39,22 @@ describe('useAudioPlayer', () => {
     act(() => result.current.toggle());
     expect(audio.pause).toHaveBeenCalled();
     expect(result.current.state).toBe('idle');
+  });
+
+  it('playSlow plays at a reduced playbackRate', () => {
+    const audio = fakeAudio();
+    const { result } = renderHook(() => useAudioPlayer('u', () => asAudio(audio)));
+    act(() => result.current.playSlow());
+    expect(result.current.state).toBe('playing');
+    expect(audio.play).toHaveBeenCalled();
+    expect(audio.playbackRate).toBeLessThan(1);
+  });
+
+  it('toggle plays at normal (1x) speed', () => {
+    const audio = fakeAudio();
+    const { result } = renderHook(() => useAudioPlayer('u', () => asAudio(audio)));
+    act(() => result.current.toggle());
+    expect(audio.playbackRate).toBe(1);
   });
 
   it('a null url toggles to error and reports canPlay false', () => {
