@@ -125,6 +125,8 @@ jobs:
             paths: .features-gen/e2e/features/a11y
           - name: offline
             paths: .features-gen/e2e/features/offline
+          - name: practice
+            paths: .features-gen/e2e/features/practice
     steps:
       - uses: actions/checkout@v7
 

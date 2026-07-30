@@ -7,7 +7,9 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useParams } from 'react-router-dom';
+import { IonButton, IonIcon } from '@ionic/react';
+import { schoolOutline } from 'ionicons/icons';
+import { useParams, useHistory } from 'react-router-dom';
 import { useLanguage } from './languagesApi';
 import { usePhrases } from './phrasesApi';
 import { PackHeader } from './PackHeader';
@@ -22,6 +24,7 @@ import './PackDetail.css';
  * button. Shows a refresh banner when the pack predates the current catalog. */
 export function PackDetail() {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const lang = useLanguage(id);
   const phrases = usePhrases(id);
   const rows = phrases.data ?? [];
@@ -48,6 +51,17 @@ export function PackDetail() {
         <div className="pp-container">
           {lang.data && <PackHeader language={lang.data} />}
           {lang.data && <RefreshBanner language={lang.data} />}
+          {rows.length > 0 && (
+            <IonButton
+              expand="block"
+              className="pp-practice-cta"
+              data-testid="start-practice"
+              onClick={() => history.push(`/pack/${id}/practice`)}
+            >
+              <IonIcon icon={schoolOutline} slot="start" aria-hidden="true" />
+              Practice these phrases
+            </IonButton>
+          )}
           <LoadState
             isLoading={phrases.isLoading}
             isError={phrases.isError}

@@ -2,7 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { LanguageRecord, PhraseRecord } from '../../lib/dataClient';
 
-vi.mock('react-router-dom', () => ({ useParams: () => ({ id: 'l1' }) }));
+vi.mock('react-router-dom', () => ({
+  useParams: () => ({ id: 'l1' }),
+  useHistory: () => ({ push: vi.fn(), replace: vi.fn() }),
+}));
 vi.mock('../../lib/useMediaUrl', () => ({ useMediaUrl: () => null }));
 // PlayButton (deep in the rendered list) uses react-query via useSynthesizeAudio;
 // mock it so this component test needs no QueryClientProvider.
@@ -66,6 +69,8 @@ describe('PackDetail', () => {
     expect(screen.getByTestId('phrase-sections')).toBeInTheDocument();
     // The translation is now a tappable "show it" button (data-testid changed).
     expect(screen.getByTestId('phrase-show')).toHaveTextContent('Hola');
+    // A pack with phrases offers a Practice call-to-action.
+    expect(screen.getByTestId('start-practice')).toBeInTheDocument();
   });
 
   it('shows the error state and Retry calls refetch', () => {
