@@ -123,6 +123,11 @@ When('they share the pack', async ({ page }) => {
   await page.getByTestId('share-pack').click();
 });
 
+When('they filter to the {string} category', async ({ page }, slug: string) => {
+  await expect(page.getByTestId('category-chips')).toBeVisible({ timeout: 15_000 });
+  await page.getByTestId(`category-chip-${slug}`).click();
+});
+
 Then('the pack link is copied and a confirmation is shown', async ({ page }) => {
   const toast = page.getByTestId('app-toast');
   await expect(toast).toBeVisible({ timeout: 15_000 });

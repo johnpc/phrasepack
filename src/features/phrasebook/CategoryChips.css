@@ -1,0 +1,39 @@
+.pp-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+  /* Let chips scroll horizontally on a phone without a visible scrollbar. */
+  scrollbar-width: none;
+}
+
+.pp-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.pp-chip {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  border: 1px solid var(--pp-border);
+  border-radius: 999px;
+  background: var(--pp-surface);
+  color: var(--pp-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pp-chip[data-active='true'] {
+  background: var(--pp-accent);
+  border-color: var(--pp-accent);
+  color: var(--pp-accent-contrast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pp-chip[data-active='false']:hover {
+    border-color: var(--pp-accent);
+    color: var(--pp-accent-strong);
+  }
+}

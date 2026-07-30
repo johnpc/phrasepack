@@ -53,4 +53,13 @@ describe('PhraseList', () => {
     expect(screen.getByTestId('search-empty')).toBeInTheDocument();
     expect(screen.queryByTestId('phrase-sections')).not.toBeInTheDocument();
   });
+
+  it('narrows the list when a category chip is tapped', () => {
+    renderList(rows);
+    // Two categories present → chips render (All + Getting Around + Please…).
+    expect(screen.getByTestId('category-chips')).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('category-chip-transport'));
+    expect(screen.getByText('Necesito un taxi')).toBeInTheDocument();
+    expect(screen.queryByText('Gracias')).not.toBeInTheDocument();
+  });
 });

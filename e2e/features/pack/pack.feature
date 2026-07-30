@@ -44,3 +44,9 @@ Feature: View a language pack
     Given a visitor opens the "Spanish (Spain)" pack on a device without native share
     When they share the pack
     Then the pack link is copied and a confirmation is shown
+
+  Scenario: Filtering by category narrows the pack to that section
+    Given a visitor opens the "Spanish (Spain)" pack
+    When they filter to the "transport" category
+    Then the phrase "Necesito un taxi" is visible with its English "I need a taxi"
+    And the phrase "Gracias" is not visible
