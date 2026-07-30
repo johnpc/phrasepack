@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { LanguageRecord } from '../../lib/dataClient';
 
@@ -36,6 +36,16 @@ describe('AddLanguage', () => {
     const choices = screen.getAllByTestId('catalog-choice');
     expect(choices.length).toBeGreaterThan(0);
     choices[0].click();
+    expect(gen.value.generate).toHaveBeenCalledTimes(1);
+  });
+
+  it('switches to browse-by-destination and picking a country starts generation', () => {
+    render(<AddLanguage />);
+    fireEvent.click(screen.getByTestId('mode-destination'));
+    const destinations = screen.getAllByTestId('destination-choice');
+    expect(destinations.length).toBeGreaterThan(0);
+    expect(screen.queryByTestId('catalog-list')).not.toBeInTheDocument();
+    destinations[0].click();
     expect(gen.value.generate).toHaveBeenCalledTimes(1);
   });
 

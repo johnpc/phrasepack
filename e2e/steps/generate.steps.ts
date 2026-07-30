@@ -78,3 +78,13 @@ Then('a generation-in-progress message is shown', async ({ page }) => {
 Then('a generation-failed message with a retry is shown', async ({ page }) => {
   await expect(page.getByTestId('generate-failed')).toBeVisible({ timeout: 15_000 });
 });
+
+When('they switch to browse by destination', async ({ page }) => {
+  await page.getByTestId('mode-destination').click();
+});
+
+Then('a destination {string} is offered', async ({ page }, country: string) => {
+  await expect(page.getByTestId('destination-choice').filter({ hasText: country })).toBeVisible({
+    timeout: 15_000,
+  });
+});
