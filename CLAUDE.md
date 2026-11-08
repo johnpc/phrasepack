@@ -173,7 +173,7 @@ npm run format         # Prettier write
 npm run test:e2e       # Gherkin acceptance (bddgen + Playwright)
 npm run seed           # seed starter packs (needs editor creds in .env.local)
 npm run gen:icons      # regenerate app icons from assets/icon{,-dark}.png
-npm run e2e-config     # pull amplify_outputs.json from the sandbox stack
+npm run e2e-config     # pull amplify_outputs.json from your sandbox (SANDBOX_IDENTIFIER or $USER)
 npx ampx sandbox       # personal cloud backend sandbox
 ```
 
@@ -181,10 +181,14 @@ npx ampx sandbox       # personal cloud backend sandbox
 
 - **Repo:** `johnpc/phrasepack`. **Bundle id:** `com.johncorser.phrasepack`. Region `us-west-2`,
   profile `personal`. iOS signing team `JW5SC3NYUV`.
-- **Sandbox stack:** `amplify-phrasepack-xss-sandbox-a94eed9284` (wired into `package.json` e2e-config).
+- **Sandboxes:** `scripts/sandbox.mjs` derives the stack name from an identifier (`--id` →
+  `SANDBOX_IDENTIFIER` → system user), so locally `e2e-config` targets your own `<user>` sandbox.
+  CI never uses a dev sandbox: each run deploys its own `ci-<run_id>` sandbox, creates the test
+  user in its fresh Cognito pool (`sandbox:ensure-editor`), seeds, tests, and always deletes it in
+  the final `teardown` job. `sandbox-cleanup.yml` sweeps leaked `ci-*` sandboxes older than 6h.
 - **Prod Amplify app id:** not yet provisioned — set it in `scripts/prod-config.mjs` before running the
   iOS/Android deploy jobs (they pull the prod backend).
-- **CI:** `.github/workflows/ci.yml` (quality + Gherkin acceptance matrix, one area per feature) blocks
+- **CI:** `.github/workflows/ci.yml` (per-run sandbox + quality + Gherkin acceptance matrix, one area per feature) blocks
   PRs. `ios-deploy.yml` / `android-deploy.yml` publish after CI on `main`. Secrets: `AWS_ACCESS_KEY_ID`,
   `AWS_SECRET_ACCESS_KEY`, `TEST_USERNAME`, `TEST_PASSWORD`, `ASC_KEY_ID`, `ASC_ISSUER_ID`,
   `ASC_KEY_CONTENT`, `TEAM_ID`.

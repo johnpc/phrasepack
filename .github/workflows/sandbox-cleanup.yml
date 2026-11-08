@@ -1,0 +1,51 @@
+name: Sandbox cleanup
+
+# Backstop for CI's per-run sandboxes. Every CI run deletes its own `ci-<run_id>`
+# sandbox in an `if: always()` teardown job; this sweep only catches one that
+# leaked anyway (e.g. the runner died mid-teardown). It deletes ONLY root stacks
+# that (a) are named `amplify-<app>-ci<digits>-sandbox-<hash>`, (b) are tagged
+# `amplify:deployment-type=sandbox`, and (c) were created more than 6 hours ago
+# — far longer than any CI run. Personal dev sandboxes and the production
+# branch stacks never match. Scheduled runs apply; a manual run is a dry run
+# unless `apply` is checked.
+on:
+  schedule:
+    - cron: '17 */2 * * *' # every 2 hours
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Actually delete (unchecked = dry run)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: sandbox-cleanup
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    name: Delete leaked ci-* sandboxes
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Configure AWS "personal" profile
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          mkdir -p ~/.aws
+          printf '[personal]\naws_access_key_id=%s\naws_secret_access_key=%s\n' \
+            "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" > ~/.aws/credentials
+          printf '[profile personal]\nregion=us-west-2\n' > ~/.aws/config
+      - name: Sweep ci-* sandboxes older than 6 hours
+        run: >-
+          npm run sandbox:sweep -- --hours 6
+          ${{ (github.event_name == 'schedule' || inputs.apply) && '--apply' || '' }}
