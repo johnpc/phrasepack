@@ -1,0 +1,31 @@
+version: 1
+# Amplify Hosting build for the `main` branch (prod). Mirrors the console
+# build spec and pins Node 26 to match .nvmrc / package.json engines: the
+# hosting image ships nvm but defaults to an older Node.
+backend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 26
+        - nvm use 26
+        - node --version
+    build:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm use 26
+        - node --version
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .npm/**/*
