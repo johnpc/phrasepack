@@ -9,6 +9,8 @@
 
 # PhrasePack
 
+> **Platform status: web only (for now).** The web app at [phrasepack.jpc.io](https://phrasepack.jpc.io) is the supported platform. The iOS and Android projects stay in this repo but are not published to the App Store or Google Play, and the iOS Deploy and Android Deploy workflows are disabled (`gh workflow enable` turns them back on).
+
 **The essential travel phrases for any country — AI-generated, with correct spelling, phonetics, and spoken audio.** Pick a language and PhrasePack builds you a pocket phrasebook of the phrases you actually need on a trip: _hello_, _thank you_, _sorry — do you speak English?_, _the check, please_, _how much is it?_, _do you take cards?_, _I need a taxi_, _to the airport_, _where is the bathroom?_ … each one shown in the language's real spelling, with a simple pronunciation, and a **play** button that speaks it aloud.
 
 **Play instantly as a guest — no account required.** Browse, open a pack, hear every phrase, and even generate a brand-new language, all without signing in.
