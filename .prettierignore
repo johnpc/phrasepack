@@ -10,5 +10,8 @@ package-lock.json
 # mirror on `cap sync` — generated artifacts, not source to format.
 ios/App/App/public
 android/app/src/main/assets/public
+# `cap sync` also writes the native copies of capacitor.config (gitignored).
+ios/App/App/capacitor.config.json
+android/app/src/main/assets/capacitor.config.json
 # Generated icon asset catalogs (Contents.json emitted by gen:icons).
 ios/App/App/Assets.xcassets
